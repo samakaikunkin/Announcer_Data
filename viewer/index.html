@@ -125,7 +125,6 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
     <span id="status-txt">กำลังโหลด...</span>
     <span id="upd-txt" style="font-size:10px;color:var(--muted)"></span>
     <button class="hbtn" onclick="fetchData()">⟳</button>
-    <button class="hbtn warn" id="token-btn" onclick="openTokenModal()">⚙ ตั้ง Token</button>
   </div>
 </header>
 
@@ -182,28 +181,13 @@ let _mZone = "—", _mDur = 600, _mType = "ประชาชน";
 
 // ── TOKEN ─────────────────────────────────────────────────────────────────────
 const getToken = () => localStorage.getItem("gh_token") || "";
-const setToken = t  => localStorage.setItem("gh_token", t.trim());
+function refreshTokenBtn() {}
 
-function refreshTokenBtn() {
-  const btn = document.getElementById("token-btn");
-  if (getToken()) { btn.textContent = "⚙ Token ✓"; btn.className = "hbtn ok"; }
-  else            { btn.textContent = "⚙ ตั้ง Token"; btn.className = "hbtn warn"; }
-}
-
-function openTokenModal() {
-  openModal("⚙ GitHub Token",
-    `<label class="m-label">Personal Access Token</label>
-     <input class="m-input" id="m-tok" type="password" placeholder="github_pat_..." value="${esc(getToken())}">
-     <p style="font-size:10px;color:var(--muted);margin-top:6px">Token เก็บใน browser คุณเท่านั้น</p>`,
-    `<button class="m-btn pri" onclick="doSaveToken()">บันทึก</button>
-     <button class="m-btn cancel" onclick="closeModal()">ยกเลิก</button>`
-  );
-  setTimeout(()=>document.getElementById("m-tok")?.focus(),50);
-}
-function doSaveToken() {
-  setToken(document.getElementById("m-tok").value);
-  refreshTokenBtn(); closeModal();
-}
+// รับ token จาก URL ?t=... แล้วเก็บใน localStorage
+(function() {
+  const p = new URLSearchParams(location.search).get("t");
+  if (p) { localStorage.setItem("gh_token", p); history.replaceState(null,"",location.pathname); }
+})();
 
 // ── STATUS ────────────────────────────────────────────────────────────────────
 function setStatus(cls, txt, upd) {
