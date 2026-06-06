@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T08:14:30.086Z",
+  "updated_at": "2026-06-06T11:26:37.624Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -98,16 +98,13 @@
       "category": "ทั่วไป"
     }
   ],
-  "timers": [
-    {
-      "label": "U20",
-      "zone": "—",
-      "started_ts": 1780725383.361,
-      "duration_sec": 600,
-      "done": false
-    }
-  ],
+  "timers": [],
   "logs": [
+    {
+      "action": "TIMER_REMOVE",
+      "detail": "U20",
+      "at": "2026-06-06T11:26:37.624Z"
+    },
     {
       "action": "BL_STATUS",
       "detail": "JAGUARX [JG]: ติดต่อแล้ว → รอจ่าย",
