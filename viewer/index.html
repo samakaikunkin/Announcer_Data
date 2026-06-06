@@ -259,7 +259,7 @@ const READONLY = new URLSearchParams(location.search).has("readonly");
 
 let _timers = [], _cdInterval = null, _blData = [];
 let _mDur = 600, _mType = "ประชาชน", _mName = "";
-let _nextRefresh = Date.now() + 30_000;
+let _nextRefresh = Date.now() + 8_000;
 let _blFilter = "", _blSort = "date";
 let _notified18 = new Set(), _notifiedX2 = new Set();
 
@@ -283,7 +283,7 @@ function setStatus(cls, txt, upd) {
 
 // ── API ───────────────────────────────────────────────────────────────────────
 async function fetchData() {
-  _nextRefresh = Date.now() + 30_000;
+  _nextRefresh = Date.now() + 8_000;
   setStatus("","กำลังโหลด...");
   try {
     const apiUrl = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
@@ -730,7 +730,7 @@ document.querySelectorAll("#frow .sbtn").forEach(btn=>{
 });
 
 fetchData();
-setInterval(fetchData,30_000);
+setInterval(fetchData,8_000);
 setInterval(()=>{renderBL(_blData);updateStats();checkNotify();},60_000);
 setInterval(()=>{
   const rem=Math.max(0,Math.ceil((_nextRefresh-Date.now())/1000));
