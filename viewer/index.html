@@ -527,7 +527,7 @@ function renderBL(entries) {
       ? new Date(e.added_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})
       : "";
     const addedMs  = e.added_at ? new Date(e.added_at).getTime() : null;
-    const elapsed  = addedMs ? (Date.now() - addedMs) / 1000 : 0;
+    const elapsed  = addedMs ? (Date.now() - addedMs) / 1000 : Infinity;
     const isX2     = elapsed > 1200 && e.status !== "จ่ายแล้ว";
     const dispAmt  = isX2 ? (e.amount_ic||0)*2 : (e.amount_ic||0);
     const viols = (e.violations||[]).map(v=>`
