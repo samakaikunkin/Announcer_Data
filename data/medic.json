@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T06:03:07.605Z",
+  "updated_at": "2026-06-06T06:03:10.246Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -58,7 +58,7 @@
           "category": "ทั่วไป"
         }
       ],
-      "status": "ติดต่อแล้ว",
+      "status": "รอจ่าย",
       "note": "",
       "added_at": "2026-06-06T05:42:58.027Z",
       "category": "ทั่วไป"
@@ -108,6 +108,11 @@
     }
   ],
   "logs": [
+    {
+      "action": "BL_STATUS",
+      "detail": "Hakatory XG: ติดต่อแล้ว → รอจ่าย",
+      "at": "2026-06-06T06:03:10.246Z"
+    },
     {
       "action": "BL_STATUS",
       "detail": "Hakatory XG: รอดำเนินการ → ติดต่อแล้ว",
