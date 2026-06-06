@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T12:11:58Z",
+  "updated_at": "2026-06-06T12:12:34.980Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -28,7 +28,31 @@
       "added_at": "2026-06-06T04:17:24.000Z",
       "reason": "ใส่หน้ากาก/ปิดบังใบหน้า  |  ทะเลาะ/ทำร้ายร่างกายในเขตรพ.  |  ทำร้ายแพทย์จนสลบ",
       "category": "หลายหมวด"
+    },
+    {
+      "name": "Test",
+      "reason": "กินแล้วไม่จ่าย / หนี",
+      "amount_ic": 300000,
+      "player_type": "ประชาชน",
+      "violations": [
+        {
+          "short": "กินแล้วไม่จ่าย / หนี",
+          "amount": 300000,
+          "category": "ทั่วไป"
+        }
+      ],
+      "status": "รอดำเนินการ",
+      "note": "",
+      "added_at": "2026-06-06T12:12:34.980Z",
+      "category": "ทั่วไป"
     }
   ],
-  "timers": []
+  "timers": [],
+  "logs": [
+    {
+      "action": "BL_ADD",
+      "detail": "Test — 300k IC",
+      "at": "2026-06-06T12:12:34.980Z"
+    }
+  ]
 }
