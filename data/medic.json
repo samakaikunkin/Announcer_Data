@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T12:30:20Z",
+  "updated_at": "2026-06-06T13:41:31Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -103,7 +103,15 @@
       "category": "รุนแรง"
     }
   ],
-  "timers": [],
+  "timers": [
+    {
+      "label": "ฟ้า",
+      "zone": "—",
+      "started_ts": 1780753291.390036,
+      "duration_sec": 600.0,
+      "done": false
+    }
+  ],
   "logs": [
     {
       "action": "BL_ADD",
