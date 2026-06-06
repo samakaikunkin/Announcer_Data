@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T11:26:43.097Z",
+  "updated_at": "2026-06-06T11:26:45.529Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -98,16 +98,13 @@
       "category": "ทั่วไป"
     }
   ],
-  "timers": [
-    {
-      "label": "dsds",
-      "zone": "—",
-      "started_ts": 1780745203.097,
-      "duration_sec": 600,
-      "done": false
-    }
-  ],
+  "timers": [],
   "logs": [
+    {
+      "action": "TIMER_REMOVE",
+      "detail": "dsds",
+      "at": "2026-06-06T11:26:45.529Z"
+    },
     {
       "action": "TIMER_ADD",
       "detail": "dsds — 10 นาที",
