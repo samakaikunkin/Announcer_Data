@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:57:58.494Z",
+  "updated_at": "2026-06-06T05:58:00.187Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -41,7 +41,7 @@
           "category": "ทั่วไป"
         }
       ],
-      "status": "รอจ่าย",
+      "status": "ปฏิเสธ",
       "note": "",
       "added_at": "2026-06-06T05:42:39.901Z",
       "category": "ทั่วไป"
@@ -108,6 +108,11 @@
     }
   ],
   "logs": [
+    {
+      "action": "BL_STATUS",
+      "detail": "Jude Bellingham: รอจ่าย → ปฏิเสธ",
+      "at": "2026-06-06T05:58:00.187Z"
+    },
     {
       "action": "BL_STATUS",
       "detail": "Hakatory XG: รอจ่าย → ปฏิเสธ",
