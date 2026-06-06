@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:50:11.910Z",
+  "updated_at": "2026-06-06T05:50:55.445Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -79,10 +79,32 @@
       "note": "",
       "added_at": "2026-06-06T05:43:18.151Z",
       "category": "ทั่วไป"
+    },
+    {
+      "name": "JAGUARX [JG]",
+      "reason": "-ทะเลาะวิวาทในเขตโรงพยาบาล 500,000 IC -แย่งศพจากมือแพทย์1,000,000 IC",
+      "amount_ic": 1500000,
+      "player_type": "แก๊ง/ครอบครัว",
+      "violations": [
+        {
+          "short": "-ทะเลาะวิวาทในเขตโรงพยาบาล 500,000 IC -แย่งศพจากมือแพทย์1,000,000 IC",
+          "amount": 1500000,
+          "category": "ทั่วไป"
+        }
+      ],
+      "status": "รอดำเนินการ",
+      "note": "",
+      "added_at": "2026-06-06T05:50:55.445Z",
+      "category": "ทั่วไป"
     }
   ],
   "timers": [],
   "logs": [
+    {
+      "action": "BL_ADD",
+      "detail": "JAGUARX [JG] — 1.5M IC",
+      "at": "2026-06-06T05:50:55.445Z"
+    },
     {
       "action": "BL_REMOVE",
       "detail": "ข้าวแกง (ลบเงียบๆ)",
