@@ -549,7 +549,7 @@ function renderBL(entries) {
         <div class="bl-foot">
           ${dispAmt?`<span class="bl-total" style="${isX2?"color:var(--red)":""}">${isX2?"×2 = ":""}รวม ${fmtIC(dispAmt)}</span>`:""}
           ${e.note?`<span class="bl-note">📝 ${esc(e.note)}</span>`:""}
-          <span style="font-size:10px;color:var(--dim)">${e.player_type||""}</span>
+          ${e.player_type?`<span style="font-size:9px;font-weight:bold;border-radius:3px;padding:2px 7px;${e.player_type==="แก๊ง/ครอบครัว"?"background:#2a1a08;color:#fb923c":"background:#0a1a2a;color:#60a5fa"}">${e.player_type}</span>`:""}
           ${date?`<span class="bl-date">${date}</span>`:""}
         </div>
       </div>`;
