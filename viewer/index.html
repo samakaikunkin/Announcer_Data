@@ -177,7 +177,7 @@ const DURS      = [300,600,900,1200];
 const DUR_LBL   = {300:"5 นาที",600:"10 นาที",900:"15 นาที",1200:"20 นาที"};
 
 let _timers = [], _cdInterval = null, _blData = [];
-let _mZone = "—", _mDur = 600, _mType = "ประชาชน";
+let _mZone = "—", _mDur = 600, _mType = "ประชาชน", _mName = "";
 
 // ── TOKEN ─────────────────────────────────────────────────────────────────────
 const getToken = () => "github_pat_11AOZRZDQ0PFSfvP64ZkNS" + "_RtFfLf2EKVhJy7rSjihsB9cYI19LB7QqOjYOLf05lK2PCM2ZTYLJ6vjcip3";
@@ -344,30 +344,39 @@ function cycleStatus(name) {
 }
 
 function openNoteModal(name, note) {
+  _mName = name;
   openModal("📝 หมายเหตุ",
     `<p style="font-size:12px;color:var(--text);margin-bottom:8px">${esc(name)}</p>
      <input class="m-input" id="m-note" value="${esc(note)}" placeholder="หมายเหตุ...">`,
-    `<button class="m-btn pri" onclick="doSaveNote(${JSON.stringify(name)})">บันทึก</button>
+    `<button class="m-btn pri" onclick="doSaveNote()">บันทึก</button>
      <button class="m-btn cancel" onclick="closeModal()">ยกเลิก</button>`
   );
   setTimeout(()=>{ const el=document.getElementById("m-note"); el?.focus(); el?.select(); },50);
 }
-function doSaveNote(name) {
+function doSaveNote() {
+  const name = _mName;
   const note = document.getElementById("m-note").value.trim();
   closeModal();
   save(cur => { const e=(cur.blacklist||[]).find(x=>x.name===name); if(e) e.note=note; });
 }
 
 function openRemoveBL(name) {
+  _mName = name;
   openModal("ปลด Blacklist",
     `<p style="font-size:13px;font-weight:bold;margin-bottom:12px">${esc(name)}</p>
-     <button class="m-action green" onclick="doRemoveBL(${JSON.stringify(name)},'paid')">💚 จ่ายเงินแล้ว</button>
-     <button class="m-action blue" onclick="doRemoveBL(${JSON.stringify(name)},'mistake')">🔵 ความผิดพลาด</button>
-     <button class="m-action" onclick="doRemoveBL(${JSON.stringify(name)},'silent')">— ลบเงียบๆ</button>`,
+     <button class="m-action green" id="rm-paid">💚 จ่ายเงินแล้ว</button>
+     <button class="m-action blue" id="rm-mistake">🔵 ความผิดพลาด</button>
+     <button class="m-action" id="rm-silent">— ลบเงียบๆ</button>`,
     `<button class="m-btn cancel" onclick="closeModal()" style="flex:none;padding:8px 18px">ยกเลิก</button>`
   );
+  setTimeout(()=>{
+    document.getElementById("rm-paid")   ?.addEventListener("click",()=>doRemoveBL("paid"));
+    document.getElementById("rm-mistake")?.addEventListener("click",()=>doRemoveBL("mistake"));
+    document.getElementById("rm-silent") ?.addEventListener("click",()=>doRemoveBL("silent"));
+  },0);
 }
-function doRemoveBL(name) {
+function doRemoveBL(reason) {
+  const name = _mName;
   closeModal();
   save(cur => { cur.blacklist = (cur.blacklist||[]).filter(e=>e.name!==name); });
 }
