@@ -309,10 +309,6 @@ function openAddTimer() {
   openModal("⏱ เพิ่ม Timer",
     `<label class="m-label">ชื่อ / กลุ่ม</label>
      <input class="m-input" id="m-tl" placeholder="ชื่อกลุ่ม...">
-     <div class="m-gap"><label class="m-label">Zone</label>
-     <div class="tag-row">
-       ${ZONES.map(z=>`<button class="tag${z==="—"?" on dim":""}" onclick="pickZone(this,'${z}')">${z}</button>`).join("")}
-     </div></div>
      <div class="m-gap"><label class="m-label">เวลา</label>
      <div class="tag-row" id="d-row">
        ${DURS.map(d=>`<button class="tag${d===600?" on blue":""}" onclick="pickDur(this,${d})">${DUR_LBL[d]}</button>`).join("")}
