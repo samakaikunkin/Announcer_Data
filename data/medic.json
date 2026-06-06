@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:55:21.442Z",
+  "updated_at": "2026-06-06T05:55:23.956Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -22,7 +22,7 @@
         }
       ],
       "amount_ic": 3600000,
-      "status": "รอจ่าย",
+      "status": "ปฏิเสธ",
       "note": "",
       "player_type": "ประชาชน",
       "added_at": "",
@@ -100,6 +100,11 @@
   ],
   "timers": [],
   "logs": [
+    {
+      "action": "BL_STATUS",
+      "detail": "Shadowx: รอจ่าย → ปฏิเสธ",
+      "at": "2026-06-06T05:55:23.956Z"
+    },
     {
       "action": "BL_STATUS",
       "detail": "Shadowx: ติดต่อแล้ว → รอจ่าย",
