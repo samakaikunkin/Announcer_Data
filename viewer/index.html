@@ -269,10 +269,6 @@ function openAddTimer() {
   openModal("⏱ เพิ่ม Timer",
     `<label class="m-label">ชื่อ / กลุ่ม</label>
      <input class="m-input" id="m-tl" placeholder="ชื่อกลุ่ม...">
-     <div class="m-gap"><label class="m-label">Zone</label>
-     <div class="tag-row" id="z-row">
-       ${ZONES.map(z=>`<button class="tag${z==="—"?" on dim":""}" onclick="pickZone(this,'${z}')">${z}</button>`).join("")}
-     </div></div>
      <div class="m-gap"><label class="m-label">เวลา</label>
      <div class="tag-row" id="d-row">
        ${DURS.map(d=>`<button class="tag${d===600?" on blue":""}" onclick="pickDur(this,${d})">${DUR_LBL[d]}</button>`).join("")}
@@ -300,7 +296,7 @@ function doAddTimer() {
   closeModal();
   save(cur => {
     cur.timers = (cur.timers||[]).filter(t=>t.label.toLowerCase()!==label.toLowerCase());
-    cur.timers.push({ label, zone:_mZone, started_ts:Date.now()/1000, duration_sec:_mDur, done:false });
+    cur.timers.push({ label, zone:"—", started_ts:Date.now()/1000, duration_sec:_mDur, done:false });
   });
 }
 
@@ -416,10 +412,8 @@ function renderTimers(entries) {
   const el = document.getElementById("t-list");
   if (!entries.length) { el.innerHTML='<div class="empty">ไม่มี timer</div>'; return; }
   el.innerHTML = entries.map((e,i)=>{
-    const zc = "z-"+(e.zone||"—");
     return `
       <div class="t-row${e.done?" done":""}" id="tr${i}">
-        <span class="zone-badge ${zc}">${e.zone||"—"}</span>
         <span class="t-label">${esc(e.label)}</span>
         <span class="t-rem" id="rem${i}">${e.done?"DONE ✓":""}</span>
         <button class="icon-btn" style="color:var(--muted)" data-rm="${esc(e.label)}">×</button>
