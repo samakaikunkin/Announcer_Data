@@ -69,6 +69,7 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .bl-total{font-size:11px;font-weight:bold;color:var(--yellow)}
 .bl-note{font-size:10px;color:var(--muted);flex:1;font-style:italic;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bl-date{font-size:10px;color:var(--muted)}
+.bl-row.x2{background:#1a0808;border-left:2px solid var(--red)}
 
 /* search */
 .srch-wrap{padding:6px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
@@ -466,23 +467,28 @@ function renderBL(entries) {
     const date = e.added_at
       ? new Date(e.added_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})
       : "";
+    const addedMs  = e.added_at ? new Date(e.added_at).getTime() : null;
+    const elapsed  = addedMs ? (Date.now() - addedMs) / 1000 : 0;
+    const isX2     = elapsed > 1200 && e.status !== "จ่ายแล้ว";
+    const dispAmt  = isX2 ? (e.amount_ic||0)*2 : (e.amount_ic||0);
     const viols = (e.violations||[]).map(v=>`
       <div class="v-row">
         <span class="v-${v.category||""}">${esc(v.short||"")}</span>
-        <span class="v-${v.category||""}" style="font-weight:bold">${fmtIC(v.amount)}</span>
+        <span class="v-${v.category||""}" style="font-weight:bold">${fmtIC(isX2?v.amount*2:v.amount)}</span>
       </div>`).join("");
     return `
-      <div class="bl-row">
+      <div class="bl-row${isX2?" x2":""}">
         <div class="bl-name-row">
           <span style="color:var(--red);font-size:10px">●</span>
           <span class="bl-name">${esc(e.name)}</span>
+          ${isX2?`<span style="background:#3a0808;color:#f87171;font-size:9px;font-weight:bold;border-radius:3px;padding:2px 6px">×2 ⚠️</span>`:""}
           <span class="sbadge ${sc}" data-cycle="${esc(e.name)}">${e.status||"รอดำเนินการ"}</span>
           <button class="icon-btn" style="font-size:11px" data-note="${esc(e.name)}" data-cur="${esc(e.note||"")}">✎</button>
           <button class="icon-btn" style="color:var(--red)" data-del="${esc(e.name)}">×</button>
         </div>
         ${viols?`<div style="padding-left:4px">${viols}</div>`:""}
         <div class="bl-foot">
-          ${e.amount_ic?`<span class="bl-total">รวม ${fmtIC(e.amount_ic)}</span>`:""}
+          ${dispAmt?`<span class="bl-total" style="${isX2?"color:var(--red)":""}">${isX2?"×2 = ":""}รวม ${fmtIC(dispAmt)}</span>`:""}
           ${e.note?`<span class="bl-note">📝 ${esc(e.note)}</span>`:""}
           <span style="font-size:10px;color:var(--dim)">${e.player_type||""}</span>
           ${date?`<span class="bl-date">${date}</span>`:""}
@@ -507,6 +513,7 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 refreshTokenBtn();
 fetchData();
 setInterval(fetchData, 30_000);
+setInterval(() => renderBL(_blData), 30_000);
 </script>
 </body>
 </html>
