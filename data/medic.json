@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T12:17:58.479Z",
+  "updated_at": "2026-06-06T12:21:53Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -104,9 +104,6 @@
     },
     {
       "name": "Test",
-      "reason": "3333",
-      "amount_ic": 3333333,
-      "player_type": "ประชาชน",
       "violations": [
         {
           "short": "3333",
@@ -114,9 +111,12 @@
           "category": "ทั่วไป"
         }
       ],
+      "amount_ic": 3333333,
       "status": "รอดำเนินการ",
       "note": "",
-      "added_at": "2026-06-06T12:17:58.479Z",
+      "player_type": "ประชาชน",
+      "added_at": "2026-06-06T12:17:58.000Z",
+      "reason": "3333",
       "category": "ทั่วไป"
     }
   ],
