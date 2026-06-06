@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T12:13:59Z",
+  "updated_at": "2026-06-06T12:14:14Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -43,6 +43,23 @@
       "note": "",
       "player_type": "ประชาชน",
       "added_at": "2026-06-06T12:13:33.000Z",
+      "reason": "ทะเลาะ/ทำร้ายร่างกายในเขตรพ.",
+      "category": "รุนแรง"
+    },
+    {
+      "name": "Hakatory XG",
+      "violations": [
+        {
+          "short": "ทะเลาะ/ทำร้ายร่างกายในเขตรพ.",
+          "amount": 500000,
+          "category": "รุนแรง"
+        }
+      ],
+      "amount_ic": 500000,
+      "status": "รอดำเนินการ",
+      "note": "",
+      "player_type": "ประชาชน",
+      "added_at": "2026-06-06T12:14:14.000Z",
       "reason": "ทะเลาะ/ทำร้ายร่างกายในเขตรพ.",
       "category": "รุนแรง"
     }
