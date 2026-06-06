@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:42:58.027Z",
+  "updated_at": "2026-06-06T05:43:18.151Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -62,10 +62,32 @@
       "note": "",
       "added_at": "2026-06-06T05:42:58.027Z",
       "category": "ทั่วไป"
+    },
+    {
+      "name": "Dum Badporyungisus",
+      "reason": "ทะเลาะวิวาทในเขตโรงพยาบาล",
+      "amount_ic": 500000,
+      "player_type": "ประชาชน",
+      "violations": [
+        {
+          "short": "ทะเลาะวิวาทในเขตโรงพยาบาล",
+          "amount": 500000,
+          "category": "ทั่วไป"
+        }
+      ],
+      "status": "รอดำเนินการ",
+      "note": "",
+      "added_at": "2026-06-06T05:43:18.151Z",
+      "category": "ทั่วไป"
     }
   ],
   "timers": [],
   "logs": [
+    {
+      "action": "BL_ADD",
+      "detail": "Dum Badporyungisus — 500k IC",
+      "at": "2026-06-06T05:43:18.151Z"
+    },
     {
       "action": "BL_ADD",
       "detail": "Hakatory XG — 500k IC",
