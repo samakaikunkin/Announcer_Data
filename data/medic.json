@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:25:26.477Z",
+  "updated_at": "2026-06-06T05:25:28.607Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -47,13 +47,5 @@
       "category": "ทั่วไป"
     }
   ],
-  "timers": [
-    {
-      "label": "หกหกห",
-      "zone": "—",
-      "started_ts": 1780723103.873,
-      "duration_sec": 600,
-      "done": false
-    }
-  ]
+  "timers": []
 }
