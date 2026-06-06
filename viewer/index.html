@@ -14,19 +14,16 @@
 body{background:var(--bg);color:var(--text);font-family:Consolas,monospace;min-height:100vh}
 
 /* header */
-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 20px;
+header{background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;
   display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
 .logo{font-size:15px;font-weight:bold;color:var(--red)}
 .logo span{color:var(--text)}
-#hdr-right{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+#hdr-right{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:4px}
-.ok  .dot{background:var(--green)}
-.err .dot{background:var(--red)}
+.ok .dot{background:var(--green)}.err .dot{background:var(--red)}
 .hbtn{background:var(--border);border:none;color:var(--muted);border-radius:4px;
-  padding:4px 10px;font-size:10px;cursor:pointer;font-family:monospace}
+  padding:4px 10px;font-size:10px;cursor:pointer;font-family:monospace;text-decoration:none;display:inline-flex;align-items:center}
 .hbtn:hover{background:var(--dim);color:var(--text)}
-.hbtn.warn{color:var(--red)}
-.hbtn.ok{color:var(--green)}
 
 /* tabs */
 .tab-bar{background:var(--card);border-bottom:1px solid var(--border);display:flex;padding:0 16px;position:sticky;top:49px;z-index:19}
@@ -36,6 +33,14 @@ header{background:var(--card);border-bottom:1px solid var(--border);padding:12px
 .tab.active{color:var(--text);border-bottom-color:var(--blue);font-weight:bold}
 .tab-badge{background:var(--border);border-radius:8px;font-size:10px;padding:1px 6px;margin-left:5px}
 .page{display:none}.page.active{display:block}
+
+/* stats bar */
+.stats-bar{background:var(--card);border-bottom:1px solid var(--border);
+  padding:5px 16px;display:flex;gap:14px;font-size:10px;align-items:center;flex-wrap:wrap}
+.stat{color:var(--muted)}.stat b{color:var(--text);font-size:11px}
+.stat.x2warn b{color:var(--red)}
+.ro-badge{background:#2a1a08;color:#fb923c;font-size:9px;font-weight:bold;
+  border-radius:3px;padding:2px 8px;margin-left:auto}
 
 /* layout */
 main{max-width:1100px;margin:0 auto;padding:20px 14px 40px;display:grid;gap:18px;grid-template-columns:1fr}
@@ -49,14 +54,28 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .icon-btn:hover{opacity:1;background:var(--border)}
 .ml-auto{margin-left:auto}
 
+/* filter / sort row */
+.frow{display:flex;gap:3px;flex-wrap:wrap;padding:6px 10px 5px;border-bottom:1px solid var(--border);align-items:center}
+.frow-lbl{font-size:9px;color:var(--muted);margin-right:1px;flex-shrink:0}
+.fbtn{background:var(--border);border:none;color:var(--muted);border-radius:3px;
+  padding:3px 8px;font-size:10px;cursor:pointer;font-family:monospace}
+.fbtn:hover{background:var(--dim);color:var(--text)}
+.fbtn.on{font-weight:bold}
+.fbtn.on[data-f=""]{background:var(--dim);color:var(--text)}
+.fbtn.on[data-f="รอดำเนินการ"]{background:#1a1a2a;color:#94a3b8}
+.fbtn.on[data-f="ติดต่อแล้ว"]{background:#0a1a2a;color:#60a5fa}
+.fbtn.on[data-f="รอจ่าย"]{background:#1a1a08;color:#facc15}
+.fbtn.on[data-f="ปฏิเสธ"]{background:#2a0a0a;color:#f87171}
+.fbtn.on[data-f="จ่ายแล้ว"]{background:#0f2a18;color:#4ade80}
+.vsep{width:1px;background:var(--border);height:12px;margin:0 3px;flex-shrink:0}
+.sbtn{background:none;border:none;color:var(--muted);font-size:10px;
+  cursor:pointer;font-family:monospace;padding:2px 6px;border-radius:3px}
+.sbtn:hover{color:var(--text)}.sbtn.on{color:var(--blue);font-weight:bold}
+
 /* timers */
 .t-row{display:flex;align-items:center;padding:7px 14px;gap:8px;border-bottom:1px solid var(--border)}
 .t-row:last-child{border-bottom:none}
 .t-row.done{opacity:.4}
-.zone-badge{font-size:9px;font-weight:bold;border-radius:3px;padding:2px 6px;min-width:52px;text-align:center}
-.z-GREEN{background:#0f2a18;color:#4ade80}.z-ORANGE{background:#2a1a08;color:#fb923c}
-.z-RED{background:#2a0808;color:#f87171}.z-HARD{background:#1a1a2a;color:#94a3b8}
-.z-—{background:var(--border);color:var(--muted)}
 .t-label{flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .t-rem{font-size:12px;font-weight:bold;min-width:56px;text-align:right}
 .pb-wrap{padding:0 14px 6px;margin-top:-4px}
@@ -66,9 +85,9 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 /* blacklist */
 .bl-row{border-bottom:1px solid var(--border);padding:8px 14px}
 .bl-row:last-child{border-bottom:none}
-.bl-name-row{display:flex;align-items:center;gap:8px;margin-bottom:3px}
-.bl-name{font-size:13px;font-weight:bold;flex:1}
-.sbadge{font-size:9px;border-radius:3px;padding:2px 7px;font-weight:bold;cursor:pointer;user-select:none}
+.bl-name-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
+.bl-name{font-size:13px;font-weight:bold;flex:1;min-width:0}
+.sbadge{font-size:9px;border-radius:3px;padding:2px 7px;font-weight:bold;cursor:pointer;user-select:none;flex-shrink:0}
 .sbadge:hover{filter:brightness(1.2)}
 .s0{background:#1a1a2a;color:#94a3b8}.s1{background:#0a1a2a;color:#60a5fa}
 .s2{background:#1a1a08;color:#facc15}.s3{background:#2a0a0a;color:#f87171}
@@ -81,6 +100,12 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .bl-date{font-size:10px;color:var(--muted)}
 .bl-row.x2{background:#1a0808;border-left:2px solid var(--red)}
 
+/* search */
+.srch-wrap{padding:6px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.srch{background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);
+  font-family:Consolas,monospace;font-size:11px;padding:4px 8px;flex:1;outline:none}
+.srch:focus{border-color:var(--dim)}
+
 /* log */
 .log-row{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid var(--border);font-size:11px}
 .log-row:last-child{border-bottom:none}
@@ -89,17 +114,10 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .log-detail{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .log-time{color:var(--muted);flex-shrink:0;font-size:10px}
 
-/* search */
-.srch-wrap{padding:6px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
-.srch{background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);
-  font-family:Consolas,monospace;font-size:11px;padding:4px 8px;flex:1;outline:none}
-.srch:focus{border-color:var(--dim)}
-
 .empty{padding:14px;color:var(--muted);font-size:11px}
 
 /* modal */
-#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;
-  align-items:center;justify-content:center}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
 #overlay.show{display:flex}
 #modal{background:var(--card);border:1px solid var(--border);border-radius:10px;
   padding:0;width:320px;max-height:90vh;overflow-y:auto}
@@ -109,8 +127,7 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .m-label{display:block;font-size:10px;color:var(--muted);margin-bottom:4px;letter-spacing:.5px}
 .m-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:5px;
   color:var(--text);font-family:Consolas,monospace;font-size:12px;padding:7px 10px;outline:none}
-.m-input:focus{border-color:var(--dim)}
-.m-input.err{border-color:var(--red)}
+.m-input:focus{border-color:var(--dim)}.m-input.err{border-color:var(--red)}
 .m-gap{margin-top:10px}
 .tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
 .tag{background:var(--border);border:none;color:var(--muted);border-radius:4px;
@@ -118,20 +135,20 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .tag:hover{background:var(--dim)}
 .tag.on{color:var(--text);font-weight:bold}
 .tag.on.green{background:#0f2a18;color:#4ade80}.tag.on.orange{background:#2a1a08;color:#fb923c}
-.tag.on.red{background:#2a0808;color:#f87171}.tag.on.hard{background:#1a1a2a;color:#94a3b8}
-.tag.on.dim{background:var(--dim);color:var(--text)}.tag.on.blue{background:#0a1a2a;color:#60a5fa}
-.tag.on.purple{background:#1a0a2a;color:#c084fc}
+.tag.on.red{background:#2a0808;color:#f87171}.tag.on.blue{background:#0a1a2a;color:#60a5fa}
 .m-foot{padding:10px 16px 14px;display:flex;gap:8px}
-.m-btn{flex:1;border:none;border-radius:5px;padding:9px;font-family:Consolas,monospace;
-  font-size:12px;font-weight:bold;cursor:pointer}
+.m-btn{flex:1;border:none;border-radius:5px;padding:9px;font-family:Consolas,monospace;font-size:12px;font-weight:bold;cursor:pointer}
 .m-btn.pri{background:#0f2a18;color:#4ade80}.m-btn.pri:hover{background:#1a3a28}
 .m-btn.red{background:#2a0808;color:#f87171}.m-btn.red:hover{background:#3a1010}
 .m-btn.cancel{background:var(--border);color:var(--muted)}.m-btn.cancel:hover{background:var(--dim)}
-.m-sep{height:6px}
 .m-action{width:100%;text-align:left;border:none;background:var(--border);color:var(--text);
   border-radius:5px;padding:10px 12px;font-family:Consolas,monospace;font-size:12px;cursor:pointer;margin-bottom:6px}
 .m-action:hover{background:var(--dim)}
 .m-action.green{background:#0f2a18;color:#4ade80}.m-action.blue{background:#0a1a2a;color:#60a5fa}
+
+/* readonly */
+.readonly .ro-hide{display:none!important}
+.readonly .sbadge{cursor:default;pointer-events:none}
 </style>
 </head>
 <body>
@@ -143,15 +160,25 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
     <span id="status-txt">กำลังโหลด...</span>
     <span id="upd-txt" style="font-size:10px;color:var(--muted)"></span>
     <span id="refresh-cd" style="font-size:10px;color:var(--muted)"></span>
-    <a class="hbtn" href="https://sites.google.com/view/badtownmedicrule-byonin" target="_blank" rel="noopener" style="text-decoration:none">📖 กฎ</a>
+    <button class="hbtn" id="notif-btn" onclick="toggleNotify()" title="เปิด/ปิด Notification">🔔</button>
+    <a class="hbtn" href="https://sites.google.com/view/badtownmedicrule-byonin" target="_blank" rel="noopener">📖 กฎ</a>
     <button class="hbtn" onclick="fetchData()">⟳</button>
   </div>
 </header>
 
-<!-- tabs -->
 <div class="tab-bar">
   <button class="tab active" id="tab-main" onclick="switchTab('main')">หน้าหลัก</button>
   <button class="tab" id="tab-log" onclick="switchTab('log')">📋 LOG <span class="tab-badge" id="log-cnt">0</span></button>
+</div>
+
+<!-- stats bar -->
+<div class="stats-bar">
+  <span class="stat">🚫 BL <b id="s-bl">0</b></span>
+  <span class="stat">⏳ รอ <b id="s-pend">0</b></span>
+  <span class="stat" id="s-x2-wrap">⚠️ ×2 <b id="s-x2">0</b></span>
+  <span class="stat">💰 ค้าง <b id="s-amt">—</b></span>
+  <span class="stat">⏱ Timer <b id="s-tmr">0</b></span>
+  <span id="s-ro" class="ro-badge" style="display:none">👁 READ ONLY</span>
 </div>
 
 <!-- modal -->
@@ -171,8 +198,8 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
       <div class="sec-hdr">
         <span class="sec-title" style="color:var(--purple)">⏱ TIMERS</span>
         <span class="cnt" id="t-cnt">0</span>
-        <button class="icon-btn ml-auto" title="clear done" onclick="clearDone()">🗑</button>
-        <button class="icon-btn" title="add timer" onclick="openAddTimer()" style="color:var(--purple);font-size:16px;opacity:1">+</button>
+        <button class="icon-btn ml-auto ro-hide" title="clear done" onclick="clearDone()">🗑</button>
+        <button class="icon-btn ro-hide" title="add timer" onclick="openAddTimer()" style="color:var(--purple);font-size:16px;opacity:1">+</button>
       </div>
       <div id="t-list"><div class="empty">ไม่มี timer</div></div>
     </section>
@@ -182,8 +209,24 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
       <div class="sec-hdr">
         <span class="sec-title" style="color:var(--red)">🚫 BLACKLIST</span>
         <span class="cnt" id="bl-cnt">0</span>
-        <button class="icon-btn ml-auto" title="copy BL list" onclick="exportBL()">📋</button>
-        <button class="icon-btn" title="add BL" onclick="openAddBL()" style="color:var(--green);font-size:16px;opacity:1">+</button>
+        <button class="icon-btn ml-auto" title="copy list" onclick="exportBL()">📋</button>
+        <button class="icon-btn ro-hide" title="add BL" onclick="openAddBL()" style="color:var(--green);font-size:16px;opacity:1">+</button>
+      </div>
+      <!-- filter + sort -->
+      <div class="frow" id="frow">
+        <span class="frow-lbl">กรอง</span>
+        <button class="fbtn on" data-f="">ทั้งหมด</button>
+        <button class="fbtn" data-f="รอดำเนินการ">รอดำเนินการ</button>
+        <button class="fbtn" data-f="ติดต่อแล้ว">ติดต่อแล้ว</button>
+        <button class="fbtn" data-f="รอจ่าย">รอจ่าย</button>
+        <button class="fbtn" data-f="ปฏิเสธ">ปฏิเสธ</button>
+        <button class="fbtn" data-f="จ่ายแล้ว">จ่ายแล้ว</button>
+        <span class="vsep"></span>
+        <span class="frow-lbl">เรียง</span>
+        <button class="sbtn on" data-s="date">วันที่</button>
+        <button class="sbtn" data-s="amt_d">ยอด↓</button>
+        <button class="sbtn" data-s="amt_a">ยอด↑</button>
+        <button class="sbtn" data-s="name">ชื่อ</button>
       </div>
       <div class="srch-wrap">
         <span style="font-size:11px;color:var(--muted)">🔍</span>
@@ -205,20 +248,22 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 </div>
 
 <script>
-const REPO      = "samakaikunkin/Announcer_Data";
-const FILE      = "data/medic.json";
-const BRANCH    = "main";
-const RAW_URL   = "https://raw.githubusercontent.com/samakaikunkin/Announcer_Data/main/data/medic.json";
-const STATUSES  = ["รอดำเนินการ","ติดต่อแล้ว","รอจ่าย","ปฏิเสธ","จ่ายแล้ว"];
-const S_CLS     = ["s0","s1","s2","s3","s4"];
-const ZONES     = ["GREEN","ORANGE","RED","HARD","—"];
-const Z_ON      = {GREEN:"green",ORANGE:"orange",RED:"red",HARD:"hard","—":"dim"};
-const DURS      = [300,600,900,1200];
-const DUR_LBL   = {300:"5 นาที",600:"10 นาที",900:"15 นาที",1200:"20 นาที"};
+const REPO     = "samakaikunkin/Announcer_Data";
+const FILE     = "data/medic.json";
+const BRANCH   = "main";
+const STATUSES = ["รอดำเนินการ","ติดต่อแล้ว","รอจ่าย","ปฏิเสธ","จ่ายแล้ว"];
+const S_CLS    = ["s0","s1","s2","s3","s4"];
+const DURS     = [300,600,900,1200];
+const DUR_LBL  = {300:"5 นาที",600:"10 นาที",900:"15 นาที",1200:"20 นาที"};
+const READONLY = new URLSearchParams(location.search).has("readonly");
 
 let _timers = [], _cdInterval = null, _blData = [];
-let _mZone = "—", _mDur = 600, _mType = "ประชาชน", _mName = "";
+let _mDur = 600, _mType = "ประชาชน", _mName = "";
 let _nextRefresh = Date.now() + 30_000;
+let _blFilter = "", _blSort = "date";
+let _notified18 = new Set(), _notifiedX2 = new Set();
+
+const getToken = () => "github_pat_11AOZRZDQ0PFSfvP64ZkNS" + "_RtFfLf2EKVhJy7rSjihsB9cYI19LB7QqOjYOLf05lK2PCM2ZTYLJ6vjcip3";
 
 // ── TABS ──────────────────────────────────────────────────────────────────────
 function switchTab(name) {
@@ -228,14 +273,9 @@ function switchTab(name) {
   document.getElementById("page-"+name).classList.add("active");
 }
 
-// ── TOKEN ─────────────────────────────────────────────────────────────────────
-const getToken = () => "github_pat_11AOZRZDQ0PFSfvP64ZkNS" + "_RtFfLf2EKVhJy7rSjihsB9cYI19LB7QqOjYOLf05lK2PCM2ZTYLJ6vjcip3";
-function refreshTokenBtn() {}
-
 // ── STATUS ────────────────────────────────────────────────────────────────────
 function setStatus(cls, txt, upd) {
-  const bar = document.getElementById("hdr-right");
-  bar.className = cls;
+  document.getElementById("hdr-right").className = cls;
   document.getElementById("status-dot").className = "dot";
   document.getElementById("status-txt").textContent = txt;
   if (upd !== undefined) document.getElementById("upd-txt").textContent = upd;
@@ -248,69 +288,70 @@ async function fetchData() {
   try {
     const apiUrl = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
     const r = await fetch(apiUrl, {
-      headers: { Authorization:`token ${getToken()}`, Accept:"application/vnd.github.v3+json" }
+      headers:{ Authorization:`token ${getToken()}`, Accept:"application/vnd.github.v3+json" }
     });
-    if (!r.ok) throw new Error("HTTP " + r.status);
+    if (!r.ok) throw new Error("HTTP "+r.status);
     const gj = await r.json();
-    const d = JSON.parse(decodeURIComponent(escape(atob(gj.content.replace(/\s/g,"")))));
-    renderTimers(d.timers || []);
-    _blData = d.blacklist || [];
+    const d  = JSON.parse(decodeURIComponent(escape(atob(gj.content.replace(/\s/g,"")))));
+    renderTimers(d.timers||[]);
+    _blData = d.blacklist||[];
     renderBL(_blData);
-    renderLog(d.logs || []);
+    renderLog(d.logs||[]);
+    updateStats();
+    checkNotify();
     const upd = d.updated_at
-      ? "อัพเดท: " + new Date(d.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"})
+      ? "อัพเดท: "+new Date(d.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"})
       : "";
     setStatus("ok","ออนไลน์",upd);
   } catch(e) {
-    setStatus("err","โหลดไม่ได้: " + e.message, "");
+    setStatus("err","โหลดไม่ได้: "+e.message,"");
   }
 }
 
-async function save(mutate) {
-  const tok = getToken();
-  if (!tok) { openTokenModal(); return; }
+async function save(mutate, _retry=0) {
+  if (READONLY) return;
   setStatus("","กำลังบันทึก...");
   try {
     const apiUrl = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
-    const hdr = { Authorization:`token ${tok}`, Accept:"application/vnd.github.v3+json" };
-
-    const gr = await fetch(apiUrl, { headers: hdr });
-    if (!gr.ok) throw new Error("GET " + gr.status);
-    const gj = await gr.json();
-    const sha = gj.sha;
+    const hdr = { Authorization:`token ${getToken()}`, Accept:"application/vnd.github.v3+json" };
+    const gr  = await fetch(apiUrl, { headers:hdr });
+    if (!gr.ok) throw new Error("GET "+gr.status);
+    const gj  = await gr.json();
     const cur = JSON.parse(decodeURIComponent(escape(atob(gj.content.replace(/\s/g,"")))));
-
     mutate(cur);
     cur.updated_at = new Date().toISOString();
-
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(cur, null, 2))));
-    const pr = await fetch(apiUrl, {
-      method: "PUT",
-      headers: { ...hdr, "Content-Type":"application/json" },
-      body: JSON.stringify({ message:"update from web", content, sha, branch: BRANCH })
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(cur,null,2))));
+    const pr = await fetch(apiUrl,{
+      method:"PUT",
+      headers:{...hdr,"Content-Type":"application/json"},
+      body:JSON.stringify({message:"update from web",content,sha:gj.sha,branch:BRANCH})
     });
-    if (!pr.ok) { const pj = await pr.json(); throw new Error(pj.message); }
-    // Render directly from mutated data — avoids waiting for CDN cache to expire
-    renderTimers(cur.timers || []);
-    _blData = cur.blacklist || [];
+    if (!pr.ok) {
+      const pj = await pr.json();
+      if (pr.status===409 && _retry<2) return save(mutate, _retry+1);
+      throw new Error(pj.message);
+    }
+    renderTimers(cur.timers||[]);
+    _blData = cur.blacklist||[];
     renderBL(_blData);
-    renderLog(cur.logs || []);
-    const upd2 = "อัพเดท: " + new Date(cur.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
-    setStatus("ok","บันทึกแล้ว",upd2);
+    renderLog(cur.logs||[]);
+    updateStats();
+    checkNotify();
+    setStatus("ok","บันทึกแล้ว","อัพเดท: "+new Date(cur.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}));
   } catch(e) {
-    setStatus("err","บันทึกไม่ได้: " + e.message, "");
-    showAlert("บันทึกไม่ได้: " + e.message);
+    setStatus("err","บันทึกไม่ได้: "+e.message,"");
+    showAlert("บันทึกไม่ได้: "+e.message);
   }
 }
 
 // ── TIMER ACTIONS ─────────────────────────────────────────────────────────────
 function openAddTimer() {
-  _mZone = "—"; _mDur = 600;
+  _mDur = 600;
   openModal("⏱ เพิ่ม Timer",
     `<label class="m-label">ชื่อ / กลุ่ม</label>
      <input class="m-input" id="m-tl" placeholder="ชื่อกลุ่ม...">
      <div class="m-gap"><label class="m-label">เวลา</label>
-     <div class="tag-row" id="d-row">
+     <div class="tag-row">
        ${DURS.map(d=>`<button class="tag${d===600?" on blue":""}" onclick="pickDur(this,${d})">${DUR_LBL[d]}</button>`).join("")}
      </div></div>`,
     `<button class="m-btn pri" onclick="doAddTimer()">▶ เริ่ม</button>
@@ -318,54 +359,45 @@ function openAddTimer() {
   );
   setTimeout(()=>document.getElementById("m-tl")?.focus(),50);
 }
-
-function pickZone(btn, z) {
-  _mZone = z;
+function pickDur(btn,d){
+  _mDur=d;
   btn.closest(".tag-row").querySelectorAll(".tag").forEach(b=>{b.className="tag"});
-  btn.className = "tag on " + (Z_ON[z]||"dim");
+  btn.className="tag on blue";
 }
-function pickDur(btn, d) {
-  _mDur = d;
-  btn.closest(".tag-row").querySelectorAll(".tag").forEach(b=>{b.className="tag"});
-  btn.className = "tag on blue";
-}
-
-function doAddTimer() {
-  const label = document.getElementById("m-tl").value.trim();
-  if (!label) { document.getElementById("m-tl").classList.add("err"); return; }
+function doAddTimer(){
+  const label=document.getElementById("m-tl").value.trim();
+  if(!label){document.getElementById("m-tl").classList.add("err");return;}
   closeModal();
-  save(cur => {
-    cur.timers = (cur.timers||[]).filter(t=>t.label.toLowerCase()!==label.toLowerCase());
-    cur.timers.push({ label, zone:_mZone, started_ts:Date.now()/1000, duration_sec:_mDur, done:false });
-    addLog(cur, "TIMER_ADD", `${label} — ${DUR_LBL[_mDur]}`);
+  save(cur=>{
+    cur.timers=(cur.timers||[]).filter(t=>t.label.toLowerCase()!==label.toLowerCase());
+    cur.timers.push({label,zone:"—",started_ts:Date.now()/1000,duration_sec:_mDur,done:false});
+    addLog(cur,"TIMER_ADD",`${label} — ${DUR_LBL[_mDur]}`);
   });
 }
-
-function removeTimer(label) {
-  save(cur => {
-    cur.timers = (cur.timers||[]).filter(t=>t.label!==label);
-    addLog(cur, "TIMER_REMOVE", label);
+function removeTimer(label){
+  save(cur=>{
+    cur.timers=(cur.timers||[]).filter(t=>t.label!==label);
+    addLog(cur,"TIMER_REMOVE",label);
   });
 }
-
-function clearDone() {
-  save(cur => {
-    const done = (cur.timers||[]).filter(t=>t.done).map(t=>t.label);
-    cur.timers = (cur.timers||[]).filter(t=>!t.done);
-    if (done.length) addLog(cur, "TIMER_CLEAR", done.join(", "));
+function clearDone(){
+  save(cur=>{
+    const done=(cur.timers||[]).filter(t=>t.done).map(t=>t.label);
+    cur.timers=(cur.timers||[]).filter(t=>!t.done);
+    if(done.length) addLog(cur,"TIMER_CLEAR",done.join(", "));
   });
 }
 
 // ── BL ACTIONS ────────────────────────────────────────────────────────────────
-function openAddBL() {
-  _mType = "ประชาชน";
+function openAddBL(){
+  _mType="ประชาชน";
   openModal("🚫 เพิ่ม Blacklist",
     `<label class="m-label">ชื่อผู้เล่น</label>
      <input class="m-input" id="m-bn" placeholder="ชื่อ...">
      <div class="m-gap"><label class="m-label">ประเภท</label>
      <div class="tag-row">
-       <button class="tag on green" id="t-civ" onclick="pickType(this,'ประชาชน')">ประชาชน</button>
-       <button class="tag" id="t-gang" onclick="pickType(this,'แก๊ง/ครอบครัว')">แก๊ง/ครอบครัว</button>
+       <button class="tag on green" onclick="pickType(this,'ประชาชน')">ประชาชน</button>
+       <button class="tag" onclick="pickType(this,'แก๊ง/ครอบครัว')">แก๊ง/ครอบครัว</button>
      </div></div>
      <div class="m-gap"><label class="m-label">เหตุผล</label>
      <input class="m-input" id="m-br" placeholder="เหตุผล..."></div>
@@ -376,64 +408,50 @@ function openAddBL() {
   );
   setTimeout(()=>document.getElementById("m-bn")?.focus(),50);
 }
-
-function pickType(btn, t) {
-  _mType = t;
+function pickType(btn,t){
+  _mType=t;
   btn.closest(".tag-row").querySelectorAll(".tag").forEach(b=>{b.className="tag"});
-  btn.className = "tag on green";
+  btn.className="tag on green";
 }
-
-function doAddBL() {
-  const name   = document.getElementById("m-bn").value.trim();
-  const reason = document.getElementById("m-br").value.trim();
-  const amount = parseInt(document.getElementById("m-ba").value)||0;
-  if (!name) { document.getElementById("m-bn").classList.add("err"); return; }
+function doAddBL(){
+  const name  =document.getElementById("m-bn").value.trim();
+  const reason=document.getElementById("m-br").value.trim();
+  const amount=parseInt(document.getElementById("m-ba").value)||0;
+  if(!name){document.getElementById("m-bn").classList.add("err");return;}
   closeModal();
-  save(cur => {
-    cur.blacklist = (cur.blacklist||[]).filter(e=>e.name!==name);
+  save(cur=>{
+    cur.blacklist=(cur.blacklist||[]).filter(e=>e.name!==name);
     cur.blacklist.push({
-      name, reason, amount_ic:amount, player_type:_mType,
-      violations: reason?[{short:reason,amount,category:"ทั่วไป"}]:[],
-      status:"รอดำเนินการ", note:"",
-      added_at:new Date().toISOString(), category:"ทั่วไป",
+      name,reason,amount_ic:amount,player_type:_mType,
+      violations:reason?[{short:reason,amount,category:"ทั่วไป"}]:[],
+      status:"รอดำเนินการ",note:"",added_at:new Date().toISOString(),category:"ทั่วไป",
     });
-    addLog(cur, "BL_ADD", `${name}${amount ? " — "+fmtIC(amount) : ""}`);
+    addLog(cur,"BL_ADD",`${name}${amount?" — "+fmtIC(amount):""}`);
   });
 }
-
-function cycleStatus(name) {
-  save(cur => {
-    const e = (cur.blacklist||[]).find(x=>x.name===name);
-    if (e) {
-      const prev = e.status;
-      e.status = STATUSES[(STATUSES.indexOf(e.status)+1)%STATUSES.length];
-      addLog(cur, "BL_STATUS", `${name}: ${prev} → ${e.status}`);
-    }
+function cycleStatus(name){
+  save(cur=>{
+    const e=(cur.blacklist||[]).find(x=>x.name===name);
+    if(e){const p=e.status;e.status=STATUSES[(STATUSES.indexOf(e.status)+1)%STATUSES.length];addLog(cur,"BL_STATUS",`${name}: ${p} → ${e.status}`);}
   });
 }
-
-function openNoteModal(name, note) {
-  _mName = name;
+function openNoteModal(name,note){
+  _mName=name;
   openModal("📝 หมายเหตุ",
     `<p style="font-size:12px;color:var(--text);margin-bottom:8px">${esc(name)}</p>
      <input class="m-input" id="m-note" value="${esc(note)}" placeholder="หมายเหตุ...">`,
     `<button class="m-btn pri" onclick="doSaveNote()">บันทึก</button>
      <button class="m-btn cancel" onclick="closeModal()">ยกเลิก</button>`
   );
-  setTimeout(()=>{ const el=document.getElementById("m-note"); el?.focus(); el?.select(); },50);
+  setTimeout(()=>{const el=document.getElementById("m-note");el?.focus();el?.select();},50);
 }
-function doSaveNote() {
-  const name = _mName;
-  const note = document.getElementById("m-note").value.trim();
+function doSaveNote(){
+  const name=_mName,note=document.getElementById("m-note").value.trim();
   closeModal();
-  save(cur => {
-    const e=(cur.blacklist||[]).find(x=>x.name===name);
-    if(e){ e.note=note; addLog(cur, "BL_NOTE", `${name}: "${note}"`); }
-  });
+  save(cur=>{const e=(cur.blacklist||[]).find(x=>x.name===name);if(e){e.note=note;addLog(cur,"BL_NOTE",`${name}: "${note}"`);} });
 }
-
-function openRemoveBL(name) {
-  _mName = name;
+function openRemoveBL(name){
+  _mName=name;
   openModal("ปลด Blacklist",
     `<p style="font-size:13px;font-weight:bold;margin-bottom:12px">${esc(name)}</p>
      <button class="m-action green" id="rm-paid">💚 จ่ายเงินแล้ว</button>
@@ -447,34 +465,28 @@ function openRemoveBL(name) {
     document.getElementById("rm-silent") ?.addEventListener("click",()=>doRemoveBL("silent"));
   },0);
 }
-function doRemoveBL(reason) {
-  const name = _mName;
-  closeModal();
-  const reasonLabel = {paid:"จ่ายเงินแล้ว", mistake:"ความผิดพลาด", silent:"ลบเงียบๆ"}[reason] || reason;
-  save(cur => {
-    cur.blacklist = (cur.blacklist||[]).filter(e=>e.name!==name);
-    addLog(cur, "BL_REMOVE", `${name} (${reasonLabel})`);
-  });
+function doRemoveBL(reason){
+  const name=_mName; closeModal();
+  const lbl={paid:"จ่ายเงินแล้ว",mistake:"ความผิดพลาด",silent:"ลบเงียบๆ"}[reason]||reason;
+  save(cur=>{cur.blacklist=(cur.blacklist||[]).filter(e=>e.name!==name);addLog(cur,"BL_REMOVE",`${name} (${lbl})`);});
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
-function openModal(title, body, foot) {
-  document.getElementById("m-title").textContent = title;
-  document.getElementById("m-body").innerHTML = body;
-  document.getElementById("m-foot").innerHTML = foot;
+function openModal(title,body,foot){
+  document.getElementById("m-title").textContent=title;
+  document.getElementById("m-body").innerHTML=body;
+  document.getElementById("m-foot").innerHTML=foot;
   document.getElementById("overlay").classList.add("show");
-  document.getElementById("modal").onkeydown = e => {
-    if (e.key === "Escape") { closeModal(); return; }
-    if (e.key === "Enter" && !e.shiftKey && e.target.tagName !== "BUTTON") {
-      const btn = document.querySelector("#m-foot .m-btn.pri, #m-foot .m-btn.red");
-      if (btn) btn.click();
+  document.getElementById("modal").onkeydown=e=>{
+    if(e.key==="Escape"){closeModal();return;}
+    if(e.key==="Enter"&&!e.shiftKey&&e.target.tagName!=="BUTTON"){
+      const btn=document.querySelector("#m-foot .m-btn.pri,#m-foot .m-btn.red");
+      if(btn) btn.click();
     }
   };
 }
-function closeModal() {
-  document.getElementById("overlay").classList.remove("show");
-}
-function showAlert(msg) {
+function closeModal(){document.getElementById("overlay").classList.remove("show");}
+function showAlert(msg){
   openModal("⚠️ แจ้งเตือน",
     `<p style="font-size:12px;line-height:1.6">${esc(msg)}</p>`,
     `<button class="m-btn cancel" onclick="closeModal()">ปิด</button>`
@@ -482,84 +494,90 @@ function showAlert(msg) {
 }
 
 // ── RENDER TIMERS ─────────────────────────────────────────────────────────────
-function renderTimers(entries) {
-  _timers = entries;
-  document.getElementById("t-cnt").textContent = entries.length;
-  const el = document.getElementById("t-list");
-  if (!entries.length) { el.innerHTML='<div class="empty">ไม่มี timer</div>'; return; }
-  el.innerHTML = entries.map((e,i)=>{
-    return `
-      <div class="t-row${e.done?" done":""}" id="tr${i}">
-        <span class="t-label">${esc(e.label)}</span>
-        <span class="t-rem" id="rem${i}">${e.done?"DONE ✓":""}</span>
-        <button class="icon-btn" style="color:var(--muted)" data-rm="${esc(e.label)}">×</button>
-      </div>
-      ${!e.done?`<div class="pb-wrap"><div class="pb-bg"><div class="pb-fill" id="pb${i}"></div></div></div>`:""}
-    `;
-  }).join("");
-  el.querySelectorAll("[data-rm]").forEach(b=>{
-    b.onclick = () => removeTimer(b.dataset.rm);
-  });
-  if (_cdInterval) clearInterval(_cdInterval);
-  _cdInterval = setInterval(tickTimers,1000);
+function renderTimers(entries){
+  _timers=entries;
+  document.getElementById("t-cnt").textContent=entries.length;
+  const el=document.getElementById("t-list");
+  if(!entries.length){el.innerHTML='<div class="empty">ไม่มี timer</div>';return;}
+  el.innerHTML=entries.map((e,i)=>`
+    <div class="t-row${e.done?" done":""}" id="tr${i}">
+      <span class="t-label">${esc(e.label)}</span>
+      <span class="t-rem" id="rem${i}">${e.done?"DONE ✓":""}</span>
+      <button class="icon-btn ro-hide" style="color:var(--muted)" data-rm="${esc(e.label)}">×</button>
+    </div>
+    ${!e.done?`<div class="pb-wrap"><div class="pb-bg"><div class="pb-fill" id="pb${i}"></div></div></div>`:""}`
+  ).join("");
+  el.querySelectorAll("[data-rm]").forEach(b=>{b.onclick=()=>removeTimer(b.dataset.rm);});
+  if(_cdInterval) clearInterval(_cdInterval);
+  _cdInterval=setInterval(tickTimers,1000);
   tickTimers();
 }
-
-function tickTimers() {
-  const now = Date.now();
+function tickTimers(){
+  const now=Date.now();
   _timers.forEach((e,i)=>{
-    if (e.done) return;
-    const end = (e.started_ts + e.duration_sec)*1000;
-    const rem = Math.max(0, end - now);
-    const pct = Math.min(1,(now-e.started_ts*1000)/(e.duration_sec*1000));
-    const rEl = document.getElementById("rem"+i);
-    const pEl = document.getElementById("pb"+i);
-    if (!rEl) return;
-    if (rem<=0) {
-      rEl.textContent="DONE ✓"; rEl.style.color=var_("green");
-      if(pEl){pEl.style.width="100%";pEl.style.background=var_("green")}
+    if(e.done) return;
+    const end=(e.started_ts+e.duration_sec)*1000;
+    const rem=Math.max(0,end-now);
+    const pct=Math.min(1,(now-e.started_ts*1000)/(e.duration_sec*1000));
+    const rEl=document.getElementById("rem"+i);
+    const pEl=document.getElementById("pb"+i);
+    if(!rEl) return;
+    if(rem<=0){
+      rEl.textContent="DONE ✓";rEl.style.color=cssVar("green");
+      if(pEl){pEl.style.width="100%";pEl.style.background=cssVar("green");}
       document.getElementById("tr"+i)?.classList.add("done");
     } else {
-      const m=Math.floor(rem/60000), s=Math.floor((rem%60000)/1000);
-      rEl.textContent = m+":"+String(s).padStart(2,"0");
-      const clr = pct<.45?var_("red"):pct<.75?var_("yellow"):var_("purple");
-      rEl.style.color = clr;
-      if(pEl){ pEl.style.width=(pct*100).toFixed(1)+"%"; pEl.style.background=pct<.45?var_("red"):pct<.75?var_("yellow"):var_("green"); }
+      const m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+      rEl.textContent=m+":"+String(s).padStart(2,"0");
+      const clr=pct<.45?cssVar("red"):pct<.75?cssVar("yellow"):cssVar("purple");
+      rEl.style.color=clr;
+      if(pEl){pEl.style.width=(pct*100).toFixed(1)+"%";pEl.style.background=pct<.45?cssVar("red"):pct<.75?cssVar("yellow"):cssVar("green");}
     }
   });
 }
-function var_(n){ return getComputedStyle(document.documentElement).getPropertyValue("--"+n).trim(); }
+function cssVar(n){return getComputedStyle(document.documentElement).getPropertyValue("--"+n).trim();}
 
 // ── RENDER BL ─────────────────────────────────────────────────────────────────
-function renderBL(entries) {
-  const q = (document.getElementById("bl-srch")?.value||"").toLowerCase();
-  const list = q ? entries.filter(e=>e.name.toLowerCase().includes(q)) : entries;
-  document.getElementById("bl-cnt").textContent = entries.length;
-  const el = document.getElementById("bl-list");
-  if (!list.length) { el.innerHTML='<div class="empty">'+(q?"ไม่พบ '"+esc(q)+"'":"ไม่มีรายการ")+'</div>'; return; }
-  el.innerHTML = list.map(e=>{
-    const si   = STATUSES.indexOf(e.status); const sc = S_CLS[si>=0?si:0];
-    const date = e.added_at
-      ? new Date(e.added_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})
-      : "";
-    const addedMs  = e.added_at ? new Date(e.added_at).getTime() : null;
-    const elapsed  = addedMs ? (Date.now() - addedMs) / 1000 : Infinity;
-    const isX2     = elapsed > 1200 && e.status !== "จ่ายแล้ว";
-    const dispAmt  = isX2 ? (e.amount_ic||0)*2 : (e.amount_ic||0);
-    const viols = (e.violations||[]).map(v=>`
+function sortedBL(entries){
+  return [...entries].sort((a,b)=>{
+    if(_blSort==="amt_d") return (b.amount_ic||0)-(a.amount_ic||0);
+    if(_blSort==="amt_a") return (a.amount_ic||0)-(b.amount_ic||0);
+    if(_blSort==="name")  return a.name.localeCompare(b.name,"th");
+    return new Date(b.added_at||0)-new Date(a.added_at||0);
+  });
+}
+function renderBL(entries){
+  const q   =(document.getElementById("bl-srch")?.value||"").toLowerCase();
+  let   list=_blFilter ? entries.filter(e=>e.status===_blFilter) : entries;
+  list=sortedBL(list);
+  if(q) list=list.filter(e=>e.name.toLowerCase().includes(q));
+  document.getElementById("bl-cnt").textContent=entries.length;
+  const el=document.getElementById("bl-list");
+  if(!list.length){el.innerHTML=`<div class="empty">${q?"ไม่พบ '"+esc(q)+"'":_blFilter?"ไม่มีรายการในสถานะนี้":"ไม่มีรายการ"}</div>`;return;}
+  el.innerHTML=list.map(e=>{
+    const si=STATUSES.indexOf(e.status),sc=S_CLS[si>=0?si:0];
+    const date=e.added_at?new Date(e.added_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"";
+    const addedMs=e.added_at?new Date(e.added_at).getTime():null;
+    const elapsed=addedMs?(Date.now()-addedMs)/1000:Infinity;
+    const isX2=elapsed>1200&&e.status!=="จ่ายแล้ว";
+    const dispAmt=isX2?(e.amount_ic||0)*2:(e.amount_ic||0);
+    const viols=(e.violations||[]).map(v=>`
       <div class="v-row">
         <span class="v-${v.category||""}">${esc(v.short||"")}</span>
         <span class="v-${v.category||""}" style="font-weight:bold">${fmtIC(isX2?v.amount*2:v.amount)}</span>
       </div>`).join("");
+    const editBtns=READONLY?"":`
+      <button class="icon-btn" style="font-size:11px" data-note="${esc(e.name)}" data-cur="${esc(e.note||"")}">✎</button>
+      <button class="icon-btn" style="color:var(--red)" data-del="${esc(e.name)}">×</button>`;
+    const cycleEvt=READONLY?"":`data-cycle="${esc(e.name)}"`;
     return `
       <div class="bl-row${isX2?" x2":""}">
         <div class="bl-name-row">
           <span style="color:var(--red);font-size:10px">●</span>
           <span class="bl-name">${esc(e.name)}</span>
           ${isX2?`<span style="background:#3a0808;color:#f87171;font-size:9px;font-weight:bold;border-radius:3px;padding:2px 6px">×2 ⚠️</span>`:""}
-          <span class="sbadge ${sc}" data-cycle="${esc(e.name)}">${e.status||"รอดำเนินการ"}</span>
-          <button class="icon-btn" style="font-size:11px" data-note="${esc(e.name)}" data-cur="${esc(e.note||"")}">✎</button>
-          <button class="icon-btn" style="color:var(--red)" data-del="${esc(e.name)}">×</button>
+          <span class="sbadge ${sc}" ${cycleEvt}>${e.status||"รอดำเนินการ"}</span>
+          ${editBtns}
         </div>
         ${viols?`<div style="padding-left:4px">${viols}</div>`:""}
         <div class="bl-foot">
@@ -570,36 +588,36 @@ function renderBL(entries) {
         </div>
       </div>`;
   }).join("");
-  el.querySelectorAll("[data-cycle]").forEach(b=>{ b.onclick=()=>cycleStatus(b.dataset.cycle); });
-  el.querySelectorAll("[data-note]").forEach(b=>{ b.onclick=()=>openNoteModal(b.dataset.note, b.dataset.cur); });
-  el.querySelectorAll("[data-del]").forEach(b=>{ b.onclick=()=>openRemoveBL(b.dataset.del); });
+  if(!READONLY){
+    el.querySelectorAll("[data-cycle]").forEach(b=>{b.onclick=()=>cycleStatus(b.dataset.cycle);});
+    el.querySelectorAll("[data-note]").forEach(b=>{b.onclick=()=>openNoteModal(b.dataset.note,b.dataset.cur);});
+    el.querySelectorAll("[data-del]").forEach(b=>{b.onclick=()=>openRemoveBL(b.dataset.del);});
+  }
 }
 
 // ── LOG ───────────────────────────────────────────────────────────────────────
-const LOG_META = {
-  BL_ADD:      {icon:"🚫",color:"var(--red)",    label:"เพิ่ม BL"},
-  BL_REMOVE:   {icon:"✅",color:"var(--green)",  label:"ปลด BL"},
-  BL_STATUS:   {icon:"🔄",color:"var(--blue)",   label:"เปลี่ยนสถานะ"},
-  BL_NOTE:     {icon:"📝",color:"var(--muted)",  label:"หมายเหตุ"},
-  TIMER_ADD:   {icon:"⏱", color:"var(--purple)","label":"เพิ่ม Timer"},
+const LOG_META={
+  BL_ADD:      {icon:"🚫",color:"var(--red)",   label:"เพิ่ม BL"},
+  BL_REMOVE:   {icon:"✅",color:"var(--green)", label:"ปลด BL"},
+  BL_STATUS:   {icon:"🔄",color:"var(--blue)",  label:"เปลี่ยนสถานะ"},
+  BL_NOTE:     {icon:"📝",color:"var(--muted)", label:"หมายเหตุ"},
+  TIMER_ADD:   {icon:"⏱", color:"var(--purple)",label:"เพิ่ม Timer"},
   TIMER_REMOVE:{icon:"×", color:"var(--muted)", label:"ลบ Timer"},
   TIMER_CLEAR: {icon:"🗑", color:"var(--muted)", label:"ล้าง Timer"},
 };
-
-function addLog(cur, action, detail) {
-  cur.logs = cur.logs || [];
-  cur.logs.unshift({ action, detail, at: new Date().toISOString() });
-  if (cur.logs.length > 150) cur.logs = cur.logs.slice(0, 150);
+function addLog(cur,action,detail){
+  cur.logs=cur.logs||[];
+  cur.logs.unshift({action,detail,at:new Date().toISOString()});
+  if(cur.logs.length>150) cur.logs=cur.logs.slice(0,150);
 }
-
-function renderLog(entries) {
-  const el = document.getElementById("log-list");
-  document.getElementById("log-cnt").textContent = entries.length;
-  if (!entries.length) { el.innerHTML='<div class="empty">ไม่มี log</div>'; return; }
-  el.innerHTML = entries.slice(0, 80).map(e => {
-    const m = LOG_META[e.action] || {icon:"•", color:"var(--muted)", label:e.action||"?"};
-    const t = e.at ? new Date(e.at) : null;
-    const ts = t ? t.toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
+function renderLog(entries){
+  const el=document.getElementById("log-list");
+  document.getElementById("log-cnt").textContent=entries.length;
+  if(!entries.length){el.innerHTML='<div class="empty">ไม่มี log</div>';return;}
+  el.innerHTML=entries.slice(0,80).map(e=>{
+    const m=LOG_META[e.action]||{icon:"•",color:"var(--muted)",label:e.action||"?"};
+    const t=e.at?new Date(e.at):null;
+    const ts=t?t.toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"";
     return `<div class="log-row">
       <span class="log-icon">${m.icon}</span>
       <span class="log-act" style="color:${m.color}">${m.label}</span>
@@ -609,45 +627,116 @@ function renderLog(entries) {
   }).join("");
 }
 
-// ── EXPORT BL ─────────────────────────────────────────────────────────────────
-function exportBL() {
-  if (!_blData.length) return;
-  const now = new Date().toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
-  const lines = [`=== BLACKLIST  ${now} ===`];
-  _blData.forEach((e, i) => {
-    const status = e.status ? `[${e.status}]` : "";
-    const amt    = e.amount_ic ? fmtIC(e.amount_ic) : "";
-    const note   = e.note ? `  📝${e.note}` : "";
-    lines.push(`${i+1}. ${e.name}  ${amt}  ${status}${note}`);
-    (e.violations||[]).forEach(v => lines.push(`   • ${v.short||""}`));
+// ── STATS ─────────────────────────────────────────────────────────────────────
+function updateStats(){
+  const now=Date.now(),bl=_blData;
+  const pending=bl.filter(e=>e.status!=="จ่ายแล้ว");
+  const x2cnt=pending.filter(e=>{
+    const ms=e.added_at?new Date(e.added_at).getTime():0;
+    return ms&&(now-ms)/1000>1200;
+  }).length;
+  const totalAmt=pending.reduce((s,e)=>s+(e.amount_ic||0),0);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set("s-bl",bl.length); set("s-pend",pending.length);
+  set("s-x2",x2cnt);     set("s-amt",totalAmt?fmtIC(totalAmt):"—");
+  set("s-tmr",_timers.filter(t=>!t.done).length);
+  const w=document.getElementById("s-x2-wrap");
+  if(w) w.className=x2cnt?"stat x2warn":"stat";
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────────────
+function checkNotify(){
+  if(!("Notification" in window)||Notification.permission!=="granted") return;
+  const now=Date.now();
+  _blData.forEach(e=>{
+    if(e.status==="จ่ายแล้ว") return;
+    const ms=e.added_at?new Date(e.added_at).getTime():0;
+    if(!ms) return;
+    const elapsed=(now-ms)/1000;
+    const key=e.name+"|"+ms;
+    if(elapsed>=1080&&elapsed<1200&&!_notified18.has(key)){
+      _notified18.add(key);
+      new Notification("⚠️ BAD TOWN — ใกล้ ×2",{
+        body:`${e.name}  —  อีก ${Math.ceil((1200-elapsed)/60)} นาทีจะ ×2!`,
+        tag:"bl18_"+e.name,
+      });
+    }
+    if(elapsed>=1200&&!_notifiedX2.has(key)){
+      _notifiedX2.add(key);
+      new Notification("🔴 BAD TOWN — ×2!",{
+        body:`${e.name}  —  ครบ 20 นาที ค่าปรับ ×2 แล้ว!`,
+        tag:"blX2_"+e.name,
+      });
+    }
   });
-  const pending = _blData.filter(e => e.status !== "จ่ายแล้ว");
-  const total   = pending.reduce((s, e) => s + (e.amount_ic||0), 0);
-  lines.push(`\nรวม ${_blData.length} คน  |  ค้างชำระ ${fmtIC(total)}`);
+}
+function toggleNotify(){
+  if(!("Notification" in window)) return showAlert("Browser นี้ไม่รองรับ Notification");
+  if(Notification.permission==="granted") return showAlert("🔔 Notification เปิดอยู่แล้ว\n\nแจ้งเตือนที่ 18 นาที (ใกล้ ×2) และ 20 นาที (×2 เกิด)");
+  Notification.requestPermission().then(p=>{
+    document.getElementById("notif-btn").textContent=p==="granted"?"🔔":"🔕";
+    if(p==="granted") showAlert("✅ เปิด Notification แล้ว");
+  });
+}
+
+// ── EXPORT BL ─────────────────────────────────────────────────────────────────
+function exportBL(){
+  if(!_blData.length) return;
+  const now=new Date().toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
+  const lines=[`=== BLACKLIST  ${now} ===`];
+  _blData.forEach((e,i)=>{
+    lines.push(`${i+1}. ${e.name}  ${e.amount_ic?fmtIC(e.amount_ic):""}  [${e.status||""}]${e.note?" 📝"+e.note:""}`);
+    (e.violations||[]).forEach(v=>lines.push(`   • ${v.short||""}`));
+  });
+  const pending=_blData.filter(e=>e.status!=="จ่ายแล้ว");
+  lines.push(`\nรวม ${_blData.length} คน  |  ค้างชำระ ${fmtIC(pending.reduce((s,e)=>s+(e.amount_ic||0),0))}`);
   navigator.clipboard.writeText(lines.join("\n"))
-    .then(() => showAlert("คัดลอก BL แล้ว (" + _blData.length + " รายการ)"))
-    .catch(() => showAlert("คัดลอกไม่ได้ — ลองกด Ctrl+C เอง"));
+    .then(()=>showAlert(`📋 คัดลอก BL แล้ว (${_blData.length} รายการ)`))
+    .catch(()=>showAlert("คัดลอกไม่ได้"));
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function fmtIC(n) {
-  if (!n) return "—";
-  if (n>=1e6) return (n/1e6).toFixed(n%1e6?1:0)+"M IC";
-  if (n>=1e3) return (n/1e3).toFixed(n%1e3?1:0)+"k IC";
+function fmtIC(n){
+  if(!n) return "—";
+  if(n>=1e6) return (n/1e6).toFixed(n%1e6?1:0)+"M IC";
+  if(n>=1e3) return (n/1e3).toFixed(n%1e3?1:0)+"k IC";
   return n+" IC";
 }
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-refreshTokenBtn();
+if(READONLY){
+  document.body.classList.add("readonly");
+  document.getElementById("s-ro").style.display="";
+}
+
+// filter buttons
+document.querySelectorAll("#frow .fbtn").forEach(btn=>{
+  btn.onclick=()=>{
+    _blFilter=btn.dataset.f;
+    document.querySelectorAll("#frow .fbtn").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    renderBL(_blData);
+  };
+});
+// sort buttons
+document.querySelectorAll("#frow .sbtn").forEach(btn=>{
+  btn.onclick=()=>{
+    _blSort=btn.dataset.s;
+    document.querySelectorAll("#frow .sbtn").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    renderBL(_blData);
+  };
+});
+
 fetchData();
-setInterval(fetchData, 30_000);
-setInterval(() => renderBL(_blData), 30_000);
-setInterval(() => {
-  const rem = Math.max(0, Math.ceil((_nextRefresh - Date.now()) / 1000));
-  const el  = document.getElementById("refresh-cd");
-  if (el) el.textContent = rem > 0 ? `⟳ ${rem}s` : "";
-}, 1000);
+setInterval(fetchData,30_000);
+setInterval(()=>{renderBL(_blData);updateStats();checkNotify();},60_000);
+setInterval(()=>{
+  const rem=Math.max(0,Math.ceil((_nextRefresh-Date.now())/1000));
+  const el=document.getElementById("refresh-cd");
+  if(el) el.textContent=rem>0?`⟳ ${rem}s`:"";
+},1000);
 </script>
 </body>
 </html>
