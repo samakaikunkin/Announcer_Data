@@ -180,14 +180,8 @@ let _timers = [], _cdInterval = null, _blData = [];
 let _mZone = "—", _mDur = 600, _mType = "ประชาชน";
 
 // ── TOKEN ─────────────────────────────────────────────────────────────────────
-const getToken = () => localStorage.getItem("gh_token") || "";
+const getToken = () => "%%TOKEN%%";
 function refreshTokenBtn() {}
-
-// รับ token จาก URL ?t=... แล้วเก็บใน localStorage
-(function() {
-  const p = new URLSearchParams(location.search).get("t");
-  if (p) { localStorage.setItem("gh_token", p); history.replaceState(null,"",location.pathname); }
-})();
 
 // ── STATUS ────────────────────────────────────────────────────────────────────
 function setStatus(cls, txt, upd) {
