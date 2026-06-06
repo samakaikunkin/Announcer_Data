@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:26:05.981Z",
+  "updated_at": "2026-06-06T05:31:20.277Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -28,24 +28,14 @@
       "added_at": "",
       "reason": "ใส่หน้ากาก/ปิดบังใบหน้า  |  ทะเลาะ/ทำร้ายร่างกายในเขตรพ.  |  ทำร้ายแพทย์จนสลบ",
       "category": "หลายหมวด"
-    },
-    {
-      "name": "หกหกหก",
-      "reason": "หกหก",
-      "amount_ic": 3,
-      "player_type": "ประชาชน",
-      "violations": [
-        {
-          "short": "หกหก",
-          "amount": 3,
-          "category": "ทั่วไป"
-        }
-      ],
-      "status": "รอดำเนินการ",
-      "note": "",
-      "added_at": "2026-06-06T05:19:34.866Z",
-      "category": "ทั่วไป"
     }
   ],
-  "timers": []
+  "timers": [],
+  "logs": [
+    {
+      "action": "BL_REMOVE",
+      "detail": "หกหกหก (ลบเงียบๆ)",
+      "at": "2026-06-06T05:31:20.277Z"
+    }
+  ]
 }
