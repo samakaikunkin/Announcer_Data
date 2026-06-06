@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T05:43:18.151Z",
+  "updated_at": "2026-06-06T05:44:03.183Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -79,10 +79,32 @@
       "note": "",
       "added_at": "2026-06-06T05:43:18.151Z",
       "category": "ทั่วไป"
+    },
+    {
+      "name": "ข้าวแกง",
+      "reason": "กินแล้วไม่จ่าย / หนี",
+      "amount_ic": 10,
+      "player_type": "แก๊ง/ครอบครัว",
+      "violations": [
+        {
+          "short": "กินแล้วไม่จ่าย / หนี",
+          "amount": 10,
+          "category": "ทั่วไป"
+        }
+      ],
+      "status": "รอดำเนินการ",
+      "note": "",
+      "added_at": "2026-06-06T05:44:03.183Z",
+      "category": "ทั่วไป"
     }
   ],
   "timers": [],
   "logs": [
+    {
+      "action": "BL_ADD",
+      "detail": "ข้าวแกง — 10 IC",
+      "at": "2026-06-06T05:44:03.183Z"
+    },
     {
       "action": "BL_ADD",
       "detail": "Dum Badporyungisus — 500k IC",
