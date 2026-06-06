@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAD TOWN — Medic Board</title>
+<style>
+  :root {
+    --bg:      #0d0d12;
+    --card:    #13141e;
+    --border:  #252535;
+    --dim:     #3a3b50;
+    --muted:   #555570;
+    --text:    #e2e8f0;
+    --green:   #4ade80;
+    --yellow:  #facc15;
+    --red:     #f87171;
+    --orange:  #fb923c;
+    --blue:    #60a5fa;
+    --purple:  #c084fc;
+    --slate:   #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Consolas', monospace; min-height: 100vh; }
+
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .logo { font-size: 16px; font-weight: bold; color: var(--red); letter-spacing: 1px; }
+  .logo span { color: var(--text); }
+  #status-bar { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.6; }
+  #status-bar .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); margin-right: 5px; }
+  #status-bar.ok  .dot { background: var(--green); }
+  #status-bar.err .dot { background: var(--red); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 820px) { main { grid-template-columns: 1fr 1fr; } }
+
+  section { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .sec-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.02);
+  }
+  .sec-title { font-size: 12px; font-weight: bold; letter-spacing: 1px; }
+  .badge { font-size: 10px; color: var(--muted); background: var(--border); border-radius: 4px; padding: 1px 6px; }
+
+  /* ── Timers ── */
+  .timer-list { padding: 6px 0; }
+  .timer-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .timer-row:last-child { border-bottom: none; }
+  .timer-row.done { opacity: 0.45; }
+  .zone-badge {
+    font-size: 9px;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 2px 6px;
+    min-width: 52px;
+    text-align: center;
+  }
+  .zone-GREEN  { background: #0f2a18; color: #4ade80; }
+  .zone-ORANGE { background: #2a1a08; color: #fb923c; }
+  .zone-RED    { background: #2a0808; color: #f87171; }
+  .zone-HARD   { background: #1a1a2a; color: #94a3b8; }
+  .zone-—      { background: var(--border); color: var(--muted); }
+  .timer-label { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .timer-remain { font-size: 12px; font-weight: bold; min-width: 58px; text-align: right; }
+  .pb-wrap { padding: 0 14px 6px; margin-top: -4px; }
+  .pb-bg { background: var(--border); border-radius: 3px; height: 4px; overflow: hidden; }
+  .pb-fill { height: 4px; border-radius: 3px; transition: width 1s linear; }
+  .empty-msg { padding: 16px 14px; color: var(--muted); font-size: 11px; }
+
+  /* ── Blacklist ── */
+  .bl-list { padding: 0; }
+  .bl-row { border-bottom: 1px solid var(--border); padding: 9px 14px; }
+  .bl-row:last-child { border-bottom: none; }
+  .bl-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .bl-name { font-size: 13px; font-weight: bold; flex: 1; }
+  .status-badge {
+    font-size: 9px;
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-weight: bold;
+  }
+  .bl-violations { padding-left: 4px; }
+  .viol-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding: 1px 0; }
+  .viol-amount { font-weight: bold; }
+  .viol-ทั่วไป { color: var(--blue); }
+  .viol-รุนแรง { color: var(--red); }
+  .bl-footer { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+  .bl-total { font-size: 11px; font-weight: bold; color: var(--yellow); }
+  .bl-note  { font-size: 10px; color: var(--muted); flex: 1; font-style: italic; }
+  .bl-type  { font-size: 10px; color: var(--dim); }
+  .bl-date  { font-size: 10px; color: var(--muted); margin-left: auto; }
+  .added-icon { color: var(--red); }
+
+  /* status colors */
+  .s-รอดำเนินการ { background: #1a1a2a; color: #94a3b8; }
+  .s-ติดต่อแล้ว  { background: #0a1a2a; color: #60a5fa; }
+  .s-รอจ่าย      { background: #1a1a08; color: #facc15; }
+  .s-ปฏิเสธ      { background: #2a0a0a; color: #f87171; }
+  .s-จ่ายแล้ว    { background: #0f2a18; color: #4ade80; }
+
+  .refresh-btn {
+    background: var(--border); border: none; color: var(--muted);
+    border-radius: 4px; padding: 4px 10px; font-size: 10px;
+    cursor: pointer; font-family: monospace;
+  }
+  .refresh-btn:hover { background: var(--dim); color: var(--text); }
+
+  #cfg-warning {
+    background: #2a1a00; border: 1px solid #fb923c44;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
+    font-size: 12px; color: var(--orange); display: none;
+  }
+  #cfg-warning code { background: var(--border); padding: 2px 6px; border-radius: 3px; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">🏥 BAD TOWN <span>Medic Board</span></div>
+  </div>
+  <div id="status-bar">
+    <span class="dot"></span>
+    <span id="status-text">กำลังโหลด...</span><br>
+    <span id="updated-text" style="font-size:10px"></span>
+    <button class="refresh-btn" onclick="fetchData()" style="margin-left:8px">⟳ รีเฟรช</button>
+  </div>
+</header>
+
+<main>
+  <div id="cfg-warning">
+    ⚠️ ยังไม่ได้ตั้งค่า URL — เปิดไฟล์ <code>index.html</code> แล้วแก้ค่า <code>RAW_DATA_URL</code> ที่บรรทัดแรกของ &lt;script&gt;
+  </div>
+
+  <section id="sec-timers">
+    <div class="sec-header">
+      <span class="sec-title" style="color:#c084fc">⏱ TIMERS</span>
+      <span class="badge" id="timer-count">0</span>
+    </div>
+    <div class="timer-list" id="timer-list">
+      <div class="empty-msg">ไม่มี timer</div>
+    </div>
+  </section>
+
+  <section id="sec-bl" style="grid-row: span 2">
+    <div class="sec-header">
+      <span class="sec-title" style="color:#f87171">🚫 BLACKLIST</span>
+      <span class="badge" id="bl-count">0</span>
+    </div>
+    <div class="bl-list" id="bl-list">
+      <div class="empty-msg">ไม่มีรายการ</div>
+    </div>
+  </section>
+</main>
+
+<script>
+// ── CONFIG ── แก้ URL นี้ให้ตรงกับ repo ของคุณ ────────────────────────────
+const RAW_DATA_URL =
+  "https://raw.githubusercontent.com/samakaikunkin/Announcer_Data/main/data/medic.json";
+// ─────────────────────────────────────────────────────────────────────────────
+
+const AUTO_REFRESH_MS = 30_000;   // refresh ทุก 30 วินาที
+const ZONE_CLR = {
+  GREEN:  "#4ade80", ORANGE: "#fb923c",
+  RED:    "#f87171", HARD:   "#94a3b8", "—": "#555570",
+};
+const STATUS_CLR = {
+  "รอดำเนินการ": "#94a3b8", "ติดต่อแล้ว": "#60a5fa",
+  "รอจ่าย": "#facc15",      "ปฏิเสธ": "#f87171", "จ่ายแล้ว": "#4ade80",
+};
+
+let _timers = [];
+let _countdownInterval = null;
+
+// ── fetch ─────────────────────────────────────────────────────────────────────
+async function fetchData() {
+  if (RAW_DATA_URL.includes("YOUR_USER")) {
+    document.getElementById("cfg-warning").style.display = "block";
+    setStatus("err", "ยังไม่ได้ตั้งค่า URL");
+    return;
+  }
+  setStatus("", "กำลังโหลด...");
+  try {
+    const res = await fetch(RAW_DATA_URL + "?_=" + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderTimers(data.timers  || []);
+    renderBL(data.blacklist || []);
+    const upd = data.updated_at
+      ? new Date(data.updated_at).toLocaleString("th-TH", {timeZone: "Asia/Bangkok"})
+      : "—";
+    document.getElementById("updated-text").textContent = "อัพเดท: " + upd;
+    setStatus("ok", "ออนไลน์");
+  } catch(e) {
+    setStatus("err", "โหลดไม่ได้: " + e.message);
+  }
+}
+
+function setStatus(cls, txt) {
+  const el = document.getElementById("status-bar");
+  el.className = cls;
+  document.getElementById("status-text").textContent = txt;
+}
+
+// ── timers ────────────────────────────────────────────────────────────────────
+function renderTimers(entries) {
+  _timers = entries;
+  document.getElementById("timer-count").textContent = entries.length;
+  const list = document.getElementById("timer-list");
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty-msg">ไม่มี timer</div>';
+    return;
+  }
+  list.innerHTML = entries.map((e, i) => {
+    const endTs  = (e.started_ts + e.duration_sec) * 1000;
+    const zClass = "zone-" + (e.zone || "—").replace(/[^A-Za-z—]/g, "");
+    return `
+      <div class="timer-row${e.done ? " done" : ""}" id="tr-${i}">
+        <span class="zone-badge ${zClass}">${e.zone || "—"}</span>
+        <span class="timer-label">${esc(e.label)}</span>
+        <span class="timer-remain" id="rem-${i}">${e.done ? "DONE ✓" : ""}</span>
+      </div>
+      ${!e.done ? `<div class="pb-wrap"><div class="pb-bg"><div class="pb-fill" id="pb-${i}" style="width:0%"></div></div></div>` : ""}
+    `;
+  }).join("");
+  startCountdowns();
+}
+
+function startCountdowns() {
+  if (_countdownInterval) clearInterval(_countdownInterval);
+  _countdownInterval = setInterval(tickTimers, 1000);
+  tickTimers();
+}
+
+function tickTimers() {
+  const now = Date.now();
+  _timers.forEach((e, i) => {
+    if (e.done) return;
+    const endMs = (e.started_ts + e.duration_sec) * 1000;
+    const rem   = Math.max(0, endMs - now);
+    const pct   = Math.min(1, (now - e.started_ts*1000) / (e.duration_sec*1000));
+
+    const remEl = document.getElementById("rem-" + i);
+    const pbEl  = document.getElementById("pb-" + i);
+    if (!remEl) return;
+
+    if (rem <= 0) {
+      remEl.textContent = "DONE ✓";
+      remEl.style.color = "#4ade80";
+      if (pbEl) { pbEl.style.width = "100%"; pbEl.style.background = "#4ade80"; }
+      document.getElementById("tr-" + i)?.classList.add("done");
+    } else {
+      const m = Math.floor(rem / 60000);
+      const s = Math.floor((rem % 60000) / 1000);
+      remEl.textContent  = m + ":" + String(s).padStart(2,"0");
+      remEl.style.color  = pct < 0.45 ? "#f87171" : pct < 0.75 ? "#facc15" : "#c084fc";
+      if (pbEl) {
+        pbEl.style.width = (pct * 100).toFixed(1) + "%";
+        pbEl.style.background = pct < 0.45 ? "#f87171" : pct < 0.75 ? "#facc15" : "#4ade80";
+      }
+    }
+  });
+}
+
+// ── blacklist ─────────────────────────────────────────────────────────────────
+function renderBL(entries) {
+  document.getElementById("bl-count").textContent = entries.length;
+  const list = document.getElementById("bl-list");
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty-msg">ไม่มีรายการ</div>';
+    return;
+  }
+  list.innerHTML = entries.map(e => {
+    const viols = (e.violations || []).map(v => `
+      <div class="viol-row">
+        <span class="viol-${v.category || ""}">${esc(v.short || "")}</span>
+        <span class="viol-amount viol-${v.category || ""}">${fmtIC(v.amount)}</span>
+      </div>
+    `).join("");
+
+    const sClass = "s-" + (e.status || "รอดำเนินการ");
+    const addedDate = e.added_at
+      ? new Date(e.added_at).toLocaleString("th-TH", {
+          timeZone:"Asia/Bangkok", day:"2-digit", month:"2-digit",
+          hour:"2-digit", minute:"2-digit"
+        })
+      : "";
+
+    return `
+      <div class="bl-row">
+        <div class="bl-name-row">
+          <span class="added-icon">●</span>
+          <span class="bl-name">${esc(e.name)}</span>
+          <span class="status-badge ${sClass}">${e.status || "รอดำเนินการ"}</span>
+        </div>
+        ${viols ? `<div class="bl-violations">${viols}</div>` : ""}
+        <div class="bl-footer">
+          ${e.amount_ic ? `<span class="bl-total">รวม ${fmtIC(e.amount_ic)}</span>` : ""}
+          ${e.note ? `<span class="bl-note">📝 ${esc(e.note)}</span>` : ""}
+          <span class="bl-type">${e.player_type || ""}</span>
+          ${addedDate ? `<span class="bl-date">${addedDate}</span>` : ""}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ── utils ─────────────────────────────────────────────────────────────────────
+function fmtIC(n) {
+  if (!n) return "—";
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 ? 1 : 0) + "M IC";
+  if (n >= 1_000)     return (n / 1_000).toFixed(n % 1_000 ? 1 : 0) + "k IC";
+  return n + " IC";
+}
+function esc(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// ── init ──────────────────────────────────────────────────────────────────────
+fetchData();
+setInterval(fetchData, AUTO_REFRESH_MS);
+</script>
+</body>
+</html>
