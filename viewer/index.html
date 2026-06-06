@@ -71,6 +71,15 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
 .bl-date{font-size:10px;color:var(--muted)}
 .bl-row.x2{background:#1a0808;border-left:2px solid var(--red)}
 
+/* log */
+.log-row{display:flex;align-items:center;gap:8px;padding:5px 14px;border-bottom:1px solid var(--border);font-size:11px}
+.log-row:last-child{border-bottom:none}
+.log-icon{width:18px;text-align:center;flex-shrink:0}
+.log-act{min-width:88px;font-weight:bold;flex-shrink:0}
+.log-detail{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-time{color:var(--muted);flex-shrink:0;font-size:10px}
+#log-list{max-height:220px;overflow-y:auto}
+
 /* search */
 .srch-wrap{padding:6px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
 .srch{background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);
@@ -149,6 +158,15 @@ section{background:var(--card);border:1px solid var(--border);border-radius:8px;
     <div id="t-list"><div class="empty">ไม่มี timer</div></div>
   </section>
 
+  <!-- log -->
+  <section style="grid-column:1/-1">
+    <div class="sec-hdr">
+      <span class="sec-title" style="color:var(--blue)">📋 LOG</span>
+      <span class="cnt" id="log-cnt">0</span>
+    </div>
+    <div id="log-list"><div class="empty">ไม่มี log</div></div>
+  </section>
+
   <!-- blacklist -->
   <section style="grid-row:span 2">
     <div class="sec-hdr">
@@ -202,6 +220,7 @@ async function fetchData() {
     renderTimers(d.timers || []);
     _blData = d.blacklist || [];
     renderBL(_blData);
+    renderLog(d.logs || []);
     const upd = d.updated_at
       ? "อัพเดท: " + new Date(d.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"})
       : "";
@@ -239,6 +258,7 @@ async function save(mutate) {
     renderTimers(cur.timers || []);
     _blData = cur.blacklist || [];
     renderBL(_blData);
+    renderLog(cur.logs || []);
     const upd2 = "อัพเดท: " + new Date(cur.updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
     setStatus("ok","บันทึกแล้ว",upd2);
   } catch(e) {
@@ -281,15 +301,23 @@ function doAddTimer() {
   save(cur => {
     cur.timers = (cur.timers||[]).filter(t=>t.label.toLowerCase()!==label.toLowerCase());
     cur.timers.push({ label, zone:"—", started_ts:Date.now()/1000, duration_sec:_mDur, done:false });
+    addLog(cur, "TIMER_ADD", `${label} — ${DUR_LBL[_mDur]}`);
   });
 }
 
 function removeTimer(label) {
-  save(cur => { cur.timers = (cur.timers||[]).filter(t=>t.label!==label); });
+  save(cur => {
+    cur.timers = (cur.timers||[]).filter(t=>t.label!==label);
+    addLog(cur, "TIMER_REMOVE", label);
+  });
 }
 
 function clearDone() {
-  save(cur => { cur.timers = (cur.timers||[]).filter(t=>!t.done); });
+  save(cur => {
+    const done = (cur.timers||[]).filter(t=>t.done).map(t=>t.label);
+    cur.timers = (cur.timers||[]).filter(t=>!t.done);
+    if (done.length) addLog(cur, "TIMER_CLEAR", done.join(", "));
+  });
 }
 
 // ── BL ACTIONS ────────────────────────────────────────────────────────────────
@@ -333,13 +361,18 @@ function doAddBL() {
       status:"รอดำเนินการ", note:"",
       added_at:new Date().toISOString(), category:"ทั่วไป",
     });
+    addLog(cur, "BL_ADD", `${name}${amount ? " — "+fmtIC(amount) : ""}`);
   });
 }
 
 function cycleStatus(name) {
   save(cur => {
     const e = (cur.blacklist||[]).find(x=>x.name===name);
-    if (e) e.status = STATUSES[(STATUSES.indexOf(e.status)+1)%STATUSES.length];
+    if (e) {
+      const prev = e.status;
+      e.status = STATUSES[(STATUSES.indexOf(e.status)+1)%STATUSES.length];
+      addLog(cur, "BL_STATUS", `${name}: ${prev} → ${e.status}`);
+    }
   });
 }
 
@@ -357,7 +390,10 @@ function doSaveNote() {
   const name = _mName;
   const note = document.getElementById("m-note").value.trim();
   closeModal();
-  save(cur => { const e=(cur.blacklist||[]).find(x=>x.name===name); if(e) e.note=note; });
+  save(cur => {
+    const e=(cur.blacklist||[]).find(x=>x.name===name);
+    if(e){ e.note=note; addLog(cur, "BL_NOTE", `${name}: "${note}"`); }
+  });
 }
 
 function openRemoveBL(name) {
@@ -378,7 +414,11 @@ function openRemoveBL(name) {
 function doRemoveBL(reason) {
   const name = _mName;
   closeModal();
-  save(cur => { cur.blacklist = (cur.blacklist||[]).filter(e=>e.name!==name); });
+  const reasonLabel = {paid:"จ่ายเงินแล้ว", mistake:"ความผิดพลาด", silent:"ลบเงียบๆ"}[reason] || reason;
+  save(cur => {
+    cur.blacklist = (cur.blacklist||[]).filter(e=>e.name!==name);
+    addLog(cur, "BL_REMOVE", `${name} (${reasonLabel})`);
+  });
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
@@ -490,6 +530,40 @@ function renderBL(entries) {
   el.querySelectorAll("[data-cycle]").forEach(b=>{ b.onclick=()=>cycleStatus(b.dataset.cycle); });
   el.querySelectorAll("[data-note]").forEach(b=>{ b.onclick=()=>openNoteModal(b.dataset.note, b.dataset.cur); });
   el.querySelectorAll("[data-del]").forEach(b=>{ b.onclick=()=>openRemoveBL(b.dataset.del); });
+}
+
+// ── LOG ───────────────────────────────────────────────────────────────────────
+const LOG_META = {
+  BL_ADD:      {icon:"🚫",color:"var(--red)",    label:"เพิ่ม BL"},
+  BL_REMOVE:   {icon:"✅",color:"var(--green)",  label:"ปลด BL"},
+  BL_STATUS:   {icon:"🔄",color:"var(--blue)",   label:"เปลี่ยนสถานะ"},
+  BL_NOTE:     {icon:"📝",color:"var(--muted)",  label:"หมายเหตุ"},
+  TIMER_ADD:   {icon:"⏱", color:"var(--purple)","label":"เพิ่ม Timer"},
+  TIMER_REMOVE:{icon:"×", color:"var(--muted)", label:"ลบ Timer"},
+  TIMER_CLEAR: {icon:"🗑", color:"var(--muted)", label:"ล้าง Timer"},
+};
+
+function addLog(cur, action, detail) {
+  cur.logs = cur.logs || [];
+  cur.logs.unshift({ action, detail, at: new Date().toISOString() });
+  if (cur.logs.length > 150) cur.logs = cur.logs.slice(0, 150);
+}
+
+function renderLog(entries) {
+  const el = document.getElementById("log-list");
+  document.getElementById("log-cnt").textContent = entries.length;
+  if (!entries.length) { el.innerHTML='<div class="empty">ไม่มี log</div>'; return; }
+  el.innerHTML = entries.slice(0, 80).map(e => {
+    const m = LOG_META[e.action] || {icon:"•", color:"var(--muted)", label:e.action||"?"};
+    const t = e.at ? new Date(e.at) : null;
+    const ts = t ? t.toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
+    return `<div class="log-row">
+      <span class="log-icon">${m.icon}</span>
+      <span class="log-act" style="color:${m.color}">${m.label}</span>
+      <span class="log-detail">${esc(e.detail||"")}</span>
+      <span class="log-time">${ts}</span>
+    </div>`;
+  }).join("");
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
