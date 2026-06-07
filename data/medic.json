@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-06T14:57:12Z",
+  "updated_at": "2026-06-07T11:46:43.727Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -101,6 +101,23 @@
       "added_at": "2026-06-06T12:15:39.000Z",
       "reason": "ทะเลาะ/ทำร้ายร่างกายในเขตรพ.  |  แย่งศพจากมือแพทย์",
       "category": "รุนแรง"
+    },
+    {
+      "name": "F-MG",
+      "reason": "ทำร้ายร่างกายแพทย์",
+      "amount_ic": 6000000,
+      "player_type": "แก๊ง/ครอบครัว",
+      "violations": [
+        {
+          "short": "ทำร้ายร่างกายแพทย์",
+          "amount": 6000000,
+          "category": "ทั่วไป"
+        }
+      ],
+      "status": "รอดำเนินการ",
+      "note": "",
+      "added_at": "2026-06-07T11:46:43.727Z",
+      "category": "ทั่วไป"
     }
   ],
   "timers": [
@@ -108,18 +125,23 @@
       "label": "ฟ้า",
       "zone": "—",
       "started_ts": 1780755158.260235,
-      "duration_sec": 600.0,
+      "duration_sec": 600,
       "done": true
     },
     {
       "label": "SIG",
       "zone": "—",
       "started_ts": 1780757232.8642693,
-      "duration_sec": 600.0,
+      "duration_sec": 600,
       "done": true
     }
   ],
   "logs": [
+    {
+      "action": "BL_ADD",
+      "detail": "F-MG — 6M IC",
+      "at": "2026-06-07T11:46:43.727Z"
+    },
     {
       "action": "BL_ADD",
       "detail": "Test — 3.3M IC",
