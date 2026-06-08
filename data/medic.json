@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-08T14:34:13Z",
+  "updated_at": "2026-06-08T14:49:13Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -126,7 +126,7 @@
       "zone": "—",
       "started_ts": 1780929253.0722585,
       "duration_sec": 900.0,
-      "done": false
+      "done": true
     }
   ],
   "logs": [
