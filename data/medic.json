@@ -1,6 +1,6 @@
 {
   "server": "FiveM",
-  "updated_at": "2026-06-08T11:23:35Z",
+  "updated_at": "2026-06-08T14:34:13Z",
   "blacklist": [
     {
       "name": "Shadowx",
@@ -120,7 +120,15 @@
       "category": "ทั่วไป"
     }
   ],
-  "timers": [],
+  "timers": [
+    {
+      "label": "AGF",
+      "zone": "—",
+      "started_ts": 1780929253.0722585,
+      "duration_sec": 900.0,
+      "done": false
+    }
+  ],
   "logs": [
     {
       "action": "BL_ADD",
